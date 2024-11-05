@@ -32,19 +32,23 @@ for raw_volt_value in raw_volt_values:
     voltages_LED.append(voltage_LED)
     current_LED = voltage_resistor / resistance_resistor
     currents_LED.append(current_LED)
-    t.sleep(0.005)
+
+fig = plt.figure(figsize = (12, 8))
+
+plt.plot(voltages_LED, currents_LED)
+
+plt.xticks(rotation = 'vertical')
+plt.xlabel('Voltages LED (V)')
+plt.ylabel('Currents LED (A)')
+# plt.locator_params(axis = 'x', nbins = 4)
+# plt.locator_params(axis = 'y', nbins = 4)
+
+# plt.close(fig)
+
+plt.show()
 
 
-with open('metingen.csv', 'w', newline='') as csvfile:
+with open('pythondaq/metingen.csv', 'w', newline = '') as csvfile:
 
     writer = csv.writer(csvfile)
     writer.writerows(zip(voltages_LED, currents_LED))
-
-
-
-
-# fig = plt.figure(figsize = (12, 8))
-
-# plt.plot(voltages_LED, currents_LED)
-
-# plt.show()
