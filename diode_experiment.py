@@ -37,10 +37,10 @@ class DiodeExperiment:
             self.voltages_LED_repeats.append(self.voltages_LED)
             self.currents_LED_repeats.append(self.currents_LED)
 
-        self.standard_deviations_voltages.append(np.std(np.array(self.voltages_LED_repeats)), axis = 0)
-        self.standard_deviations_currents.append(np.std(np.array(self.currents_LED_repeats)), axis = 0)
-        self.means_voltages.append(np.mean(np.array(self.voltages_LED_repeats)), axis = 0)
-        self.means_currents.append(np.mean(np.array(self.currents_LED_repeats)), axis = 0)
+        self.standard_deviations_voltages = np.std((np.array(self.voltages_LED_repeats)), axis = 0)
+        self.standard_deviations_currents = np.std((np.array(self.currents_LED_repeats)), axis = 0)
+        self.means_voltages = np.mean((np.array(self.voltages_LED_repeats)), axis = 0)
+        self.means_currents = np.mean((np.array(self.currents_LED_repeats)), axis = 0)
 
         return self.voltages_LED, self.currents_LED, self.standard_deviations_voltages, self.standard_deviations_currents, self.means_voltages, self.means_currents
 
