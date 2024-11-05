@@ -15,7 +15,7 @@ class ArduinoVISADevice:
 
     def get_identification(self):
 
-        return self.device.query("*gaie?")
+        return self.device.query("*IDN?")
 
     def set_output_value(self, value):
 
