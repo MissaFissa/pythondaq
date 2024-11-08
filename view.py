@@ -1,3 +1,5 @@
+"""Plot the data from the experiment and create a csv file using the data. 
+"""
 import matplotlib.pyplot as plt
 import csv
 from diode_experiment import list_resources
