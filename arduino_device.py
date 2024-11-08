@@ -35,30 +35,38 @@ class ArduinoVISADevice:
 
         Args:
             value (int): value for the output channel.
-
-        Returns:
-            _type_: _description_
         """
         self.device.query("OUT:CH0 "+str(value)+"")
 
-    def get_input_value(self, channel):
-        """_summary_
-
-        Args:
-            channel (_type_): _description_
+    def get_output_value(self):  
+        """Get value of the output channel.
 
         Returns:
-            _type_: _description_
+            str: value of the output channel.
+        """
+        return self.device.query("OUT:CH0?")
+
+    def get_input_value(self, channel):
+        """Get value of the input channel.
+
+        Args:
+            channel (int): channel used for the input.
+
+        Returns:
+            str: value of the input channel.
         """
         return self.device.query("MEAS:CH"+str(channel)+"?")
 
     def get_input_voltage(self, channel):
+        """Get value of the input channel in Volt.
 
+        Args:
+            channel (int): channel used for the input.
+
+        Returns:
+            int: value of the input channel in Volt.
+        """
         return int(self.device.query("MEAS:CH"+str(channel)+"?")) / (1024 / 3.3)
-
-    def get_output_value(self):  
-
-        return self.device.query("OUT:CH0?")
 
 if __name__ == "__main__":
     help(ArduinoVISADevice)

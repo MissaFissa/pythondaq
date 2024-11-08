@@ -1,20 +1,33 @@
 import matplotlib.pyplot as plt
+import csv
 from diode_experiment import list_resources
 from diode_experiment import DiodeExperiment
 
 experiment = DiodeExperiment()
 
-voltages_LED, currents_LED, std_voltages, std_currents, mean_voltages, mean_currents = experiment.scan(start = 0, stop = 1023, iterations = 2)
-csv_file = experiment.csv_file()
+errors_voltages, errors_currents, means_voltages, means_currents = experiment.scan(start = 0, stop = 1023, iterations = 2)
 
-print(mean_voltages[0:10])
+def create_csv_file():
+    """Create a csv file containing the means of the voltages and the means of the currents.
+    """
+    with open('pythondaq/metingen.csv', 'w', newline = '') as csvfile:
 
-fig1 = plt.figure(figsize = (10, 8))
+        writer = csv.writer(csvfile)
+        header = ['mean Voltages LED', 'mean Currents LED']
+        writer.writerow(header)
 
-plt.errorbar(mean_voltages, mean_currents, xerr = std_voltages, yerr = std_currents, fmt = 'bo', markersize = 1.5, elinewidth = 0.5, ecolor = 'g')
+        for mean_voltage_LED, mean_current_LED in zip(means_voltages, means_currents):
+
+            writer.writerow([mean_voltage_LED, mean_current_LED])
+            
+csv_file = create_csv_file()
+
+fig = plt.figure(figsize = (10, 8))
+
+plt.errorbar(means_voltages, means_currents, xerr = errors_voltages, yerr = errors_currents, fmt = 'bo', markersize = 1.25, elinewidth = 0.5, capsize = '1', ecolor = 'r')
 plt.xticks(rotation = 'vertical')
-plt.xlabel('Voltages LED [V]')
-plt.ylabel('Currents LED [A]')
+plt.xlabel('Voltage LED [V]')
+plt.ylabel('Current LED [A]')
 plt.tight_layout()
 
 plt.show()
