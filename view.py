@@ -7,7 +7,7 @@ from diode_experiment import DiodeExperiment
 
 experiment = DiodeExperiment()
 
-errors_voltages, errors_currents, means_voltages, means_currents = experiment.scan(start = 0, stop = 1023, iterations = 2)
+errors_voltages, errors_currents, means_voltages, means_currents = experiment.scan(start = 0, stop = 1023, iterations = 3)
 
 def create_csv_file():
     """Create a csv file containing the means of the voltages and the means of the currents.
