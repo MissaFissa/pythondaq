@@ -2,17 +2,17 @@
 """
 import matplotlib.pyplot as plt
 import csv
-from diode_experiment import list_resources
-from diode_experiment import DiodeExperiment
+from pythondaq.diode_experiment import list_resources
+from pythondaq.diode_experiment import DiodeExperiment
 
 experiment = DiodeExperiment()
 
-errors_voltages, errors_currents, means_voltages, means_currents = experiment.scan(start = 0, stop = 1023, iterations = 3)
+errors_voltages, errors_currents, means_voltages, means_currents = experiment.scan(start = 0, stop = 1023, iterations = 1)
 
 def create_csv_file():
     """Create a csv file containing the means of the voltages and the means of the currents.
     """
-    with open('pythondaq/metingen.csv', 'w', newline = '') as csvfile:
+    with open('metingen.csv', 'w', newline = '') as csvfile:
 
         writer = csv.writer(csvfile)
         header = ['mean Voltages LED', 'mean Currents LED']
@@ -26,7 +26,7 @@ csv_file = create_csv_file()
 
 fig = plt.figure(figsize = (10, 8))
 
-plt.errorbar(means_voltages, means_currents, xerr = errors_voltages, yerr = errors_currents, fmt = 'bo', markersize = 1.25, elinewidth = 0.5, capsize = '1', ecolor = 'r')
+plt.errorbar(means_voltages, means_currents, xerr = errors_voltages, yerr = errors_currents, fmt = 'bo', markersize = 1.25, elinewidth = 0.5, capsize = 1, ecolor = 'r')
 plt.xticks(rotation = 'vertical')
 plt.xlabel('Voltage LED [V]')
 plt.ylabel('Current LED [A]')

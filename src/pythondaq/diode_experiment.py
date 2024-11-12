@@ -1,5 +1,5 @@
 import numpy as np
-from arduino_device import ArduinoVISADevice, list_resources
+from pythondaq.arduino_device import ArduinoVISADevice, list_resources
 
 class DiodeExperiment:
     """Initiate the experiment.
