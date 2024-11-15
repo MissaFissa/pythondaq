@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 *.csv
 pythondaqMVC.bundle
+pythondaqPoetry.bundle

@@ -6,14 +6,15 @@ from pythondaq.diode_experiment import list_resources
 from pythondaq.diode_experiment import DiodeExperiment
 
 def initiate_experiment():
-    
+    """Function to initiate the experiment.
+    """
     experiment = DiodeExperiment()
 
     errors_voltages, errors_currents, means_voltages, means_currents = experiment.scan(start = 0, stop = 1023, iterations = 2)
 
-    csv_file = create_csv_file(means_voltages, means_currents)
+    create_csv_file(means_voltages, means_currents)
 
-    fig = plt.figure(figsize = (10, 8))
+    plt.figure(figsize = (10, 8))
 
     plt.errorbar(means_voltages, means_currents, xerr = errors_voltages, yerr = errors_currents, fmt = 'bo', markersize = 1.25, elinewidth = 0.5, capsize = 1, ecolor = 'r')
     plt.xticks(rotation = 'vertical')
