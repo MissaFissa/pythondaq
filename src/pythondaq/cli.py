@@ -18,8 +18,8 @@ def list():
 @click.argument("device")
 def info(device):
 
-    
-    print(device.query("*IDN?"))
+    experiment = DiodeExperiment(device)
+    print(experiment.get_identification())
 
 @diode.command()
 @click.argument("start")

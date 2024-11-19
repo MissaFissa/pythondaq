@@ -4,10 +4,10 @@ from pythondaq.arduino_device import ArduinoVISADevice, list_resources
 class DiodeExperiment:
     """Initiate the experiment.
     """
-    def __init__(self):
+    def __init__(self, port):
         """Initialize variables used in the class.
         """
-        self.device = ArduinoVISADevice(port = "ASRL9::INSTR")
+        self.device = ArduinoVISADevice(port = port)
         self.resistance_resistor = 220
         self.voltages_LED_repeats = []
         self.currents_LED_repeats = []
@@ -15,6 +15,14 @@ class DiodeExperiment:
         self.errors_currents = []
         self.means_voltages = []
         self.means_currents = []
+
+    def get_identification(self):
+        """return identification string of connected device.
+
+        Returns:
+            str: identification string of connected device.
+        """
+        return self.device.get_identification()
 
     def scan(self, start, stop, iterations):
         """Starts a measurement.
