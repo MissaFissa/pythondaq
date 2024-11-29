@@ -68,12 +68,12 @@ class UserInterface(QMainWindow):
 
         self.ui.progBar.setMinimum(0)
         self.ui.progBar.setMaximum(self.n)
-
   
     def devices(self):
         """Print list of connected devices.
         """
-        return list_resources()
+        # return list_resources()
+        return ["ASRL::SIMLED::INSTR"]
 
     def save(self):
 
@@ -111,7 +111,6 @@ class UserInterface(QMainWindow):
 
         self.ui.plotWidget.setLabel("bottom", "Mean voltages LED [V]")
         self.ui.plotWidget.setLabel("left", "Mean currents LED [A]")
-
         error_bars = pg.ErrorBarItem(x = self.means_voltages, y = self.means_currents, width = 2 * self.errors_voltages, height = 2 * self.errors_currents)
         self.ui.plotWidget.addItem(error_bars)
         self.ui.plotWidget.showGrid(x = True, y = True)
@@ -120,6 +119,7 @@ def main():
 
     app = QApplication(sys.argv)
     ui = UserInterface()
+    ui.plot()
     ui.show()
     sys.exit(app.exec())
 

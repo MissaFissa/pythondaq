@@ -37,7 +37,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setStyleSheet(u"")
         self.frame = QFrame(self.centralwidget)
         self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(0, 0, 231, 291))
+        self.frame.setGeometry(QRect(0, 0, 231, 331))
         self.frame.setAutoFillBackground(False)
         self.frame.setStyleSheet(u"background-color: dimgray")
         self.frame.setFrameShape(QFrame.Shape.Box)
@@ -170,22 +170,17 @@ class Ui_MainWindow(object):
         self.frame_2.setFrameShadow(QFrame.Shadow.Sunken)
         self.frame_2.setLineWidth(0)
         self.frame_2.setMidLineWidth(0)
-        self.verticalLayout_6 = QVBoxLayout(self.frame_2)
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.plotWidget = PlotWidget(self.frame_2)
         self.plotWidget.setObjectName(u"plotWidget")
+        self.plotWidget.setGeometry(QRect(10, 10, 551, 451))
+        self.plotWidget.setContentsMargins(0, 0, 0, 0)
         self.plotWidget.setAutoFillBackground(True)
         self.plotWidget.setStyleSheet(u"background-color: black;\n"
 "color: dodgerblue")
-        self.plotWidget.setFrameShape(QFrame.Shape.Box)
-        self.plotWidget.setFrameShadow(QFrame.Shadow.Sunken)
-        self.plotWidget.setLineWidth(1)
-        self.plotWidget.setMidLineWidth(1)
-
-        self.verticalLayout_6.addWidget(self.plotWidget)
-
+    
         self.horizontalFrame = QFrame(self.frame_2)
         self.horizontalFrame.setObjectName(u"horizontalFrame")
+        self.horizontalFrame.setGeometry(QRect(10, 470, 551, 52))
         self.horizontalFrame.setAutoFillBackground(False)
         self.horizontalFrame.setStyleSheet(u"background-color: b")
         self.horizontalFrame.setFrameShape(QFrame.Shape.Box)
@@ -219,27 +214,19 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.progBar)
 
-
-        self.verticalLayout_6.addWidget(self.horizontalFrame)
-
         self.frame_3 = QFrame(self.centralwidget)
         self.frame_3.setObjectName(u"frame_3")
-        self.frame_3.setGeometry(QRect(0, 290, 231, 221))
+        self.frame_3.setGeometry(QRect(0, 330, 231, 191))
         self.frame_3.setAutoFillBackground(False)
         self.frame_3.setStyleSheet(u"")
         self.frame_3.setFrameShape(QFrame.Shape.Box)
         self.frame_3.setFrameShadow(QFrame.Shadow.Raised)
         self.frame_3.setLineWidth(3)
         self.frame_3.setMidLineWidth(2)
-        self.label_2 = QLabel(self.frame_3)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(-40, 0, 311, 231))
-        self.label_2.setPixmap(QPixmap(u"../../../../../Pictures/laughingg at homevideos/gus2.jpg"))
-        self.label_2.setScaledContents(True)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 799, 22))
+        self.menubar.setGeometry(QRect(0, 0, 799, 21))
         self.menubar.setAutoFillBackground(False)
         self.menubar.setStyleSheet(u"color: dodgerblue;\n"
 "background-color: black")
@@ -264,14 +251,13 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"GraphApp", None))
         self.startLabel.setText(QCoreApplication.translate("MainWindow", u"Start ", None))
         self.stopLabel.setText(QCoreApplication.translate("MainWindow", u"Stop", None))
         self.itersLabel.setText(QCoreApplication.translate("MainWindow", u"Iterations", None))
         self.deviceLabel.setText(QCoreApplication.translate("MainWindow", u"Devices", None))
         self.plotButton.setText(QCoreApplication.translate("MainWindow", u"Plot", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Scan Progress", None))
-        self.label_2.setText("")
         self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
     # retranslateUi
 
