@@ -10,7 +10,7 @@ from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
 from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient, QCursor,
                            QFont, QFontDatabase, QGradient, QIcon, QImage,
                            QKeySequence, QLinearGradient, QPainter, QPalette,
-                           QPixmap, QRadialGradient, QTransform)
+                           QPixmap, QRadialGradient, QTransform, QShortcut)
 from PySide6.QtWidgets import (QApplication, QComboBox, QDoubleSpinBox,
                                QFileDialog, QFrame, QGridLayout, QHBoxLayout,
                                QLabel, QLineEdit, QMainWindow, QMenuBar,
@@ -32,8 +32,8 @@ class UserInterface(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.ui.menubar = QMenuBar()
-        self.ui.menubar.setGeometry(QRect(0, 0, 800, 37))
+        self.ui.menuBar = QMenuBar()
+        self.ui.menuBar.setGeometry(QRect(0, 0, 800, 37))
 
         saveButton = QAction("Save", self)
         saveButton.setIcon(QApplication.style().standardIcon(QStyle.SP_DesktopIcon))
@@ -44,7 +44,7 @@ class UserInterface(QMainWindow):
 
         self.setStatusBar(QStatusBar(self))
 
-        fileMenu = self.ui.menubar.addMenu("File")
+        fileMenu = self.ui.menuBar.addMenu("File")
 
         saveAction = QAction("Save", self)
 
@@ -60,14 +60,14 @@ class UserInterface(QMainWindow):
 
         for device in list_devices:
 
-            self.ui.deviceCombo.addItem(device)
+            self.ui.deviceComboBox.addItem(device)
 
-        self.ui.deviceCombo.currentTextChanged.connect(self.plot)
+        self.ui.deviceComboBox.currentTextChanged.connect(self.plot)
 
         self.n = 10
 
-        self.ui.progBar.setMinimum(0)
-        self.ui.progBar.setMaximum(self.n)
+        self.ui.progressBar.setMinimum(0)
+        self.ui.progressBar.setMaximum(self.n)
   
     def devices(self):
         """Print list of connected devices.
@@ -98,10 +98,10 @@ class UserInterface(QMainWindow):
         
         self.ui.plotWidget.clear()
   
-        start_value = self.ui.startSpinb.value()
-        stop_value = self.ui.stopSpinb.value()
-        iterations = self.ui.itersSpinb.value()
-        port = self.ui.deviceCombo.currentText() 
+        start_value = self.ui.startSpinbox.value()
+        stop_value = self.ui.stopSpinbox.value()
+        iterations = self.ui.iterationsSpinbox.value()
+        port = self.ui.deviceComboBox.currentText() 
         
         experiment = DiodeExperiment(port = port)
 
