@@ -24,6 +24,11 @@ class DiodeExperiment:
         """
         return self.device.get_identification()
 
+
+    def close(self):
+
+        self.device.close()
+
     def scan(self, start, stop, iterations):
         """Starts a measurement.
 
@@ -65,5 +70,6 @@ class DiodeExperiment:
         self.means_currents = np.mean((np.array(self.currents_LED_repeats)), axis = 0)
 
         self.device.set_output_value(value = 0)
+        self.device.close()
 
         return self.errors_voltages, self.errors_currents, self.means_voltages, self.means_currents, self.voltages_LED_repeats, self.currents_LED_repeats

@@ -21,3 +21,4 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 run_experiment = "pythondaq.view:initiate_experiment"
 diode = "pythondaq.cli:diode"
+ini = "pythondaq.gui:main"

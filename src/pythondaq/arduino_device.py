@@ -68,5 +68,10 @@ class ArduinoVISADevice:
         """
         return int(self.device.query("MEAS:CH"+str(channel)+"?")) / (1024 / 3.3)
 
+    def close(self):
+
+            self.device.close
+            # self._is_open = False
+        
 if __name__ == "__main__":
     help(ArduinoVISADevice)
