@@ -98,9 +98,9 @@ class UserInterface(QMainWindow):
         
         self.ui.plotWidget.clear()
   
-        start_value = self.ui.startSpinb.value() or 0
-        stop_value = self.ui.stopSpinb.value() or 1023
-        iterations = self.ui.itersSpinb.value() or 1
+        start_value = self.ui.startSpinb.value()
+        stop_value = self.ui.stopSpinb.value()
+        iterations = self.ui.itersSpinb.value()
         port = self.ui.deviceCombo.currentText() 
         
         experiment = DiodeExperiment(port = port)
@@ -114,12 +114,12 @@ class UserInterface(QMainWindow):
 
         error_bars = pg.ErrorBarItem(x = self.means_voltages, y = self.means_currents, width = 2 * self.errors_voltages, height = 2 * self.errors_currents)
         self.ui.plotWidget.addItem(error_bars)
+        self.ui.plotWidget.showGrid(x = True, y = True)
 
 def main():
 
     app = QApplication(sys.argv)
     ui = UserInterface()
-    ui.plot()
     ui.show()
     sys.exit(app.exec())
 
