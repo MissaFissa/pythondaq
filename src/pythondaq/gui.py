@@ -42,8 +42,6 @@ class UserInterface(QMainWindow):
 
         self.ui.toolBar.addAction(saveButton)
 
-        self.setStatusBar(QStatusBar(self))
-
         fileMenu = self.ui.menuBar.addMenu("File")
 
         saveAction = QAction("Save", self)
@@ -62,8 +60,6 @@ class UserInterface(QMainWindow):
 
             self.ui.deviceComboBox.addItem(device)
 
-        self.ui.deviceComboBox.currentTextChanged.connect(self.plot)
-
         self.n = 10
 
         self.ui.progressBar.setMinimum(0)
@@ -80,7 +76,7 @@ class UserInterface(QMainWindow):
         filepath, _ = QFileDialog.getSaveFileName(filter = "CSV files (*.csv)")    
 
         with open(f'{filepath}', 'w', newline = '') as csvfile:
-
+        
             writer = csv.writer(csvfile)
             header = ['Mean voltages LED', 'Mean currents LED', 'Errors voltages', 'Errors currents']
             writer.writerow(header)
@@ -88,6 +84,8 @@ class UserInterface(QMainWindow):
             for mean_voltage_LED, mean_current_LED, errors_voltages, errors_currents in zip(self.means_voltages, self.means_currents, self.errors_voltages, self.errors_currents):
 
                 writer.writerow([mean_voltage_LED, mean_current_LED, errors_voltages, errors_currents])
+        
+            self.ui.statusBar.showMessage("The file has been saved...", 3000)
 
         if filepath == "":
 

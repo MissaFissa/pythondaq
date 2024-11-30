@@ -289,20 +289,24 @@ class Ui_MainWindow(object):
         self.menuBar.setGeometry(QRect(0, 0, 1239, 21))
         self.menuBar.setAutoFillBackground(False)
         self.menuBar.setStyleSheet(u"color: dodgerblue;\n"
-"background-color: black")
+"background-color: black;\n"
+)
         self.menuBar.setDefaultUp(False)
         self.menuBar.setNativeMenuBar(False)
         MainWindow.setMenuBar(self.menuBar)
+
         self.statusBar = QStatusBar(MainWindow)
         self.statusBar.setObjectName(u"statusBar")
         MainWindow.setStatusBar(self.statusBar)
+    
         self.toolBar = QToolBar(MainWindow)
         self.toolBar.setObjectName(u"toolBar")
         self.toolBar.setMouseTracking(False)
         self.toolBar.setAcceptDrops(False)
         self.toolBar.setAutoFillBackground(False)
         self.toolBar.setStyleSheet(u"color: b;\n"
-"background-color: dodgerblue")
+"background-color: dodgerblue;\n"
+)
         self.toolBar.setMovable(False)
         self.toolBar.setIconSize(QSize(16, 16))
         MainWindow.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.toolBar)
