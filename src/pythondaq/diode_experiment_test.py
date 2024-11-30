@@ -16,6 +16,10 @@ class DiodeExperiment:
         self.errors_currents = []
         self.means_voltages = []
         self.means_currents = []
+        self.errors_voltages_list = []
+        self.errors_currents_list = []
+        self.means_voltages_list = []
+        self.means_currents_list = []
 
     def get_identification(self):
         """return identification string of connected device.
@@ -28,6 +32,14 @@ class DiodeExperiment:
     def close(self):
 
         self.device.close()
+
+    def start_scan(self, start, stop, iterations):
+        """Start a new thread to execute a scan.
+        """
+        self._scan_thread = threading.Thread(
+            target = self.scan, args = (start, stop, iterations)
+        )
+        self._scan_thread.start()
 
     def scan(self, start, stop, iterations):
         """Starts a measurement.
@@ -44,8 +56,18 @@ class DiodeExperiment:
             list: list containing the means of the currents.
         """
         raw_values = [raw_value for raw_value in range(start, stop + 1)]
+        self.voltages_LED_repeats = []
+        self.currents_LED_repeats = []
+        self.errors_voltages = []
+        self.errors_currents = []
+        self.means_voltages = []
+        self.means_currents = []
+        self.errors_voltages_list = []
+        self.errors_currents_list = []
+        self.means_voltages_list = []
+        self.means_currents_list = []
 
-        for _ in range(iterations):
+        for i in range(iterations):
 
             voltages_resistor = []
             voltages_LED = []
@@ -63,6 +85,18 @@ class DiodeExperiment:
             
             self.voltages_LED_repeats.append(voltages_LED)
             self.currents_LED_repeats.append(currents_LED)
+
+            self.errors_voltages = np.std((np.array(self.voltages_LED_repeats)), axis = 0) / np.sqrt(i + 1)
+            self.errors_currents = np.std((np.array(self.currents_LED_repeats)), axis = 0) / np.sqrt(i + 1)
+            self.means_voltages = np.mean((np.array(self.voltages_LED_repeats)), axis = 0)
+            self.means_currents = np.mean((np.array(self.currents_LED_repeats)), axis = 0)
+
+            # self.errors_voltages_list.extend(self.errors_voltages)
+            # self.errors_currents_list.extend(self.errors_currents)
+            # self.means_voltages_list.extend(self.means_voltages)
+            # self.means_currents_list.extend(self.means_currents)
+
+            # time.sleep(0.1)
 
         self.errors_voltages = np.std((np.array(self.voltages_LED_repeats)), axis = 0) / np.sqrt(iterations)
         self.errors_currents = np.std((np.array(self.currents_LED_repeats)), axis = 0) / np.sqrt(iterations)
