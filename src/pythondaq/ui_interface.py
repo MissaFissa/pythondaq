@@ -83,11 +83,11 @@ class Ui_MainWindow(object):
         self.startBox.setMidLineWidth(2)
         self.verticalLayout = QVBoxLayout(self.startBox)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.startLabel = QLabel(self.startBox)
-        self.startLabel.setObjectName(u"startLabel")
-        self.startLabel.setStyleSheet(u"color: white")
+        self.startValueLabel = QLabel(self.startBox)
+        self.startValueLabel.setObjectName(u"startValueLabel")
+        self.startValueLabel.setStyleSheet(u"color: white")
 
-        self.verticalLayout.addWidget(self.startLabel)
+        self.verticalLayout.addWidget(self.startValueLabel)
 
         self.startSpinbox = QSpinBox(self.startBox)
         self.startSpinbox.setObjectName(u"startSpinbox")
@@ -110,11 +110,11 @@ class Ui_MainWindow(object):
         self.stopBox.setMidLineWidth(2)
         self.verticalLayout_5 = QVBoxLayout(self.stopBox)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.stopLabel = QLabel(self.stopBox)
-        self.stopLabel.setObjectName(u"stopLabel")
-        self.stopLabel.setStyleSheet(u"color: white")
+        self.stopValueLabel = QLabel(self.stopBox)
+        self.stopValueLabel.setObjectName(u"stopValueLabel")
+        self.stopValueLabel.setStyleSheet(u"color: white")
 
-        self.verticalLayout_5.addWidget(self.stopLabel)
+        self.verticalLayout_5.addWidget(self.stopValueLabel)
 
         self.stopSpinbox = QSpinBox(self.stopBox)
         self.stopSpinbox.setObjectName(u"stopSpinbox")
@@ -335,14 +335,14 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"GraphApp", None))
-        self.startLabel.setText(QCoreApplication.translate("MainWindow", u"Start ", None))
-        self.stopLabel.setText(QCoreApplication.translate("MainWindow", u"Stop", None))
+        self.startValueLabel.setText(QCoreApplication.translate("MainWindow", u"Start Value", None))
+        self.stopValueLabel.setText(QCoreApplication.translate("MainWindow", u"Stop Value", None))
         self.iterationsLabel.setText(QCoreApplication.translate("MainWindow", u"Iterations", None))
         self.deviceLabel.setText(QCoreApplication.translate("MainWindow", u"Devices", None))
         self.startButton.setText(QCoreApplication.translate("MainWindow", u"Start", None))
         self.stopButton.setText(QCoreApplication.translate("MainWindow", u"Stop", None))
         self.imageLabel.setText("")
         self.progressBarLabel.setText(QCoreApplication.translate("MainWindow", u"Scan Progress", None))
-        self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
+        self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"Toolbar", None))
     # retranslateUi
 

@@ -71,7 +71,7 @@ class UserInterface(QMainWindow):
         # self.ui.progressBar.setMaximum(self.n)
 
         self.ui.startButton.clicked.connect(self.start_scan)
-        self.ui.stopButton.clicked.connect(lambda: self.ui.startButton.setEnabled(True))
+        self.ui.stopButton.clicked.connect(self.stop_scan)
 
         self.plot_timer = QTimer()
         self.plot_timer.timeout.connect(self.plot)
@@ -106,7 +106,8 @@ class UserInterface(QMainWindow):
         if filepath == "":
 
             return
-
+        
+    @Slot()
     def start_scan(self):
         """Starts a scanning process with specified parameters.
         """
@@ -119,40 +120,48 @@ class UserInterface(QMainWindow):
         self.experiment.start_scan(start = start_value, stop = stop_value, iterations = iterations)
 
     @Slot()
+    def stop_scan(self):
+
+        self.experiment.stop_scan()
+        self.ui.startButton.setEnabled(True)
+
+    @Slot()
     def plot(self):
-        
-        self.ui.plotWidget.clear()
-  
-        self.ui.plotWidget.plot(self.experiment.means_voltages, self.experiment.means_currents, symbol = "o", symbolSize = 5, pen = None)
 
-        error_bars = pg.ErrorBarItem(x = np.array(self.experiment.means_voltages), y = np.array(self.experiment.means_currents), width = 2 * np.array(self.experiment.errors_voltages), height = 2 * np.array(self.experiment.errors_currents))
-        self.ui.plotWidget.addItem(error_bars)
+        if self.experiment.is_scanning.is_set():
 
-        self.ui.plotWidget.setLabel("bottom", "Mean voltages LED [V]")
-        # self.ui.plotWidget.setLabel("left", "Mean currents LED [A]")
-        self.ui.plotWidget.setLabel("left", "Mean currents LED [mA]")
-        # self.ui.plotWidget.setXRange(0.0, 2.0, padding = 0)
-        # self.ui.plotWidget.setYRange(0.0, 0.007, padding = 0)
-        self.ui.plotWidget.showGrid(x = True, y = True)
+            self.ui.plotWidget.clear()
     
-        # self.ui.plotWidget.clear()
-  
-        # start_value = self.ui.startSpinbox.value()
-        # stop_value = self.ui.stopSpinbox.value()
-        # iterations = self.ui.iterationsSpinbox.value()
-        # port = self.ui.deviceComboBox.currentText() 
+            self.ui.plotWidget.plot(self.experiment.means_voltages, self.experiment.means_currents, symbol = "o", symbolSize = 5, pen = None)
+
+            error_bars = pg.ErrorBarItem(x = np.array(self.experiment.means_voltages), y = np.array(self.experiment.means_currents), width = 2 * np.array(self.experiment.errors_voltages), height = 2 * np.array(self.experiment.errors_currents))
+            self.ui.plotWidget.addItem(error_bars)
+
+            self.ui.plotWidget.setLabel("bottom", "Mean voltages LED [V]")
+            # self.ui.plotWidget.setLabel("left", "Mean currents LED [A]")
+            self.ui.plotWidget.setLabel("left", "Mean currents LED [mA]")
+            # self.ui.plotWidget.setXRange(0.0, 2.0, padding = 0)
+            # self.ui.plotWidget.setYRange(0.0, 0.007, padding = 0)
+            self.ui.plotWidget.showGrid(x = True, y = True)
         
-        # experiment = DiodeExperiment(port = port)
+            # self.ui.plotWidget.clear()
+    
+            # start_value = self.ui.startSpinbox.value()
+            # stop_value = self.ui.stopSpinbox.value()
+            # iterations = self.ui.iterationsSpinbox.value()
+            # port = self.ui.deviceComboBox.currentText() 
+            
+            # experiment = DiodeExperiment(port = port)
 
-        # self.errors_voltages, self.errors_currents, self.means_voltages, self.means_currents, self.voltages_LED, self.currents_LED = experiment.scan(start = start_value, stop = stop_value, iterations = iterations)
+            # self.errors_voltages, self.errors_currents, self.means_voltages, self.means_currents, self.voltages_LED, self.currents_LED = experiment.scan(start = start_value, stop = stop_value, iterations = iterations)
 
-        # self.ui.plotWidget.plot(self.means_voltages, self.means_currents, symbol = "o", symbolSize = 5, pen = None)
+            # self.ui.plotWidget.plot(self.means_voltages, self.means_currents, symbol = "o", symbolSize = 5, pen = None)
 
-        # self.ui.plotWidget.setLabel("bottom", "Mean voltages LED [V]")
-        # self.ui.plotWidget.setLabel("left", "Mean currents LED [A]")
-        # error_bars = pg.ErrorBarItem(x = self.means_voltages, y = self.means_currents, width = 2 * self.errors_voltages, height = 2 * self.errors_currents)
-        # self.ui.plotWidget.addItem(error_bars)
-        # self.ui.plotWidget.showGrid(x = True, y = True)
+            # self.ui.plotWidget.setLabel("bottom", "Mean voltages LED [V]")
+            # self.ui.plotWidget.setLabel("left", "Mean currents LED [A]")
+            # error_bars = pg.ErrorBarItem(x = self.means_voltages, y = self.means_currents, width = 2 * self.errors_voltages, height = 2 * self.errors_currents)
+            # self.ui.plotWidget.addItem(error_bars)
+            # self.ui.plotWidget.showGrid(x = True, y = True)
 
 def main():
 
