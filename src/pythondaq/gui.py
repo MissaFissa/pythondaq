@@ -1,4 +1,4 @@
-import csv, sys, time
+import csv, sys, time, threading
 from pathlib import Path
 import numpy as np
 import pyqtgraph as pg
@@ -67,16 +67,16 @@ class UserInterface(QMainWindow):
 
             self.ui.deviceComboBox.addItem(device)
 
-        self.n = 10
+        # self.n = 10
 
-        self.ui.progressBar.setMinimum(0)
-        self.ui.progressBar.setMaximum(self.n)
+        # self.ui.progressBar.setMinimum(0)
+        # self.ui.progressBar.setMaximum(self.n)
 
-        self.ui.plotButton.clicked.connect(self.start_scan)
+        self.ui.scanButton.clicked.connect(self.start_scan)
 
         self.plot_timer = QTimer()
         self.plot_timer.timeout.connect(self.plot)
-        self.plot_timer.start(100)
+        self.plot_timer.start(10)
 
         self.port = self.ui.deviceComboBox.currentText() 
 
@@ -98,7 +98,7 @@ class UserInterface(QMainWindow):
             header = ['Mean voltages LED', 'Mean currents LED', 'Errors voltages', 'Errors currents']
             writer.writerow(header)
 
-            for mean_voltage_LED, mean_current_LED, errors_voltages, errors_currents in zip(self.means_voltages, self.means_currents, self.errors_voltages, self.errors_currents):
+            for mean_voltage_LED, mean_current_LED, errors_voltages, errors_currents in zip(self.experiment.means_voltages, self.experiment.means_currents, self.experiment.errors_voltages, self.experiment.errors_currents):
 
                 writer.writerow([mean_voltage_LED, mean_current_LED, errors_voltages, errors_currents])
         
@@ -111,23 +111,29 @@ class UserInterface(QMainWindow):
     def start_scan(self):
         """Starts a scanning process with specified parameters.
         """
+        # self.ui.scanButton.setEnabled(False)
+        
         start_value = self.ui.startSpinbox.value()
         stop_value = self.ui.stopSpinbox.value()
         iterations = self.ui.iterationsSpinbox.value()
 
         self.experiment.start_scan(start = start_value, stop = stop_value, iterations = iterations)
-
+        
     @Slot()
     def plot(self):
 
         self.ui.plotWidget.clear()
   
-        self.ui.plotWidget.plot(self.experiment.means_voltages_list, self.experiment.means_currents_list, symbol = "o", symbolSize = 5, pen = None)
+        self.ui.plotWidget.plot(self.experiment.means_voltages, self.experiment.means_currents, symbol = "o", symbolSize = 5, pen = None)
+
+        error_bars = pg.ErrorBarItem(x = np.array(self.experiment.means_voltages), y = np.array(self.experiment.means_currents), width = 2 * np.array(self.experiment.errors_voltages), height = 2 * np.array(self.experiment.errors_currents))
+        self.ui.plotWidget.addItem(error_bars)
 
         self.ui.plotWidget.setLabel("bottom", "Mean voltages LED [V]")
-        self.ui.plotWidget.setLabel("left", "Mean currents LED [A]")
-        error_bars = pg.ErrorBarItem(x = np.array(self.experiment.means_voltages_list), y = np.array(self.experiment.means_currents_list), width = 2 * np.array(self.experiment.errors_voltages_list), height = 2 * np.array(self.experiment.errors_currents_list))
-        self.ui.plotWidget.addItem(error_bars)
+        # self.ui.plotWidget.setLabel("left", "Mean currents LED [A]")
+        self.ui.plotWidget.setLabel("left", "Mean currents LED [mA]")
+        # self.ui.plotWidget.setXRange(0.0, 2.0, padding = 0)
+        # self.ui.plotWidget.setYRange(0.0, 0.007, padding = 0)
         self.ui.plotWidget.showGrid(x = True, y = True)
   
         # self.ui.plotWidget.clear()

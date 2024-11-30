@@ -186,11 +186,11 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addWidget(self.deviceFrame)
 
-        self.plotButton = QPushButton(self.inputsFrame)
-        self.plotButton.setObjectName(u"plotButton")
-        self.plotButton.setStyleSheet(u"color: white; background-color: dimgrey")
+        self.scanButton = QPushButton(self.inputsFrame)
+        self.scanButton.setObjectName(u"scanButton")
+        self.scanButton.setStyleSheet(u"color: white; background-color: dimgrey")
 
-        self.verticalLayout_4.addWidget(self.plotButton)
+        self.verticalLayout_4.addWidget(self.scanButton)
 
 
         self.verticalLayout_7.addWidget(self.inputsFrame)
@@ -327,7 +327,7 @@ class Ui_MainWindow(object):
         self.stopLabel.setText(QCoreApplication.translate("MainWindow", u"Stop", None))
         self.iterationsLabel.setText(QCoreApplication.translate("MainWindow", u"Iterations", None))
         self.deviceLabel.setText(QCoreApplication.translate("MainWindow", u"Devices", None))
-        self.plotButton.setText(QCoreApplication.translate("MainWindow", u"Plot", None))
+        self.scanButton.setText(QCoreApplication.translate("MainWindow", u"Scan", None))
         self.imageLabel.setText("")
         self.progressBarLabel.setText(QCoreApplication.translate("MainWindow", u"Scan Progress", None))
         self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
