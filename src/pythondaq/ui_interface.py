@@ -291,8 +291,8 @@ class Ui_MainWindow(object):
 "	margin: 1px;\n"
 "	border-radius: 5px;\n"
 "}")
-        self.progressBar.setValue(24)
-        self.progressBar.setTextVisible(False)
+        self.progressBar.setValue(0)
+        self.progressBar.setTextVisible(True)
         
         self.horizontalLayout.addWidget(self.progressBar)
 

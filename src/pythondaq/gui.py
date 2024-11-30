@@ -59,16 +59,9 @@ class UserInterface(QMainWindow):
 
         saveAction.triggered.connect(self.save)
 
-        list_devices = self.devices()
+        self.n = np.abs(self.ui.stopSpinbox.value() - self.ui.startSpinbox.value())
 
-        for device in list_devices:
-
-            self.ui.deviceComboBox.addItem(device)
-
-        # self.n = 10
-
-        # self.ui.progressBar.setMinimum(0)
-        # self.ui.progressBar.setMaximum(self.n)
+        self.ui.progressBar.setRange(0, self.n)
 
         self.ui.startButton.clicked.connect(self.start_scan)
         self.ui.stopButton.clicked.connect(self.stop_scan)
@@ -77,10 +70,16 @@ class UserInterface(QMainWindow):
         self.plot_timer.timeout.connect(self.plot)
         self.plot_timer.start(100)
 
+        list_devices = self.devices()
+
+        for device in list_devices:
+
+            self.ui.deviceComboBox.addItem(device)
+
         self.port = self.ui.deviceComboBox.currentText() 
 
         self.experiment = DiodeExperiment(port = self.port)
-            
+
     def devices(self):
         """Print list of connected devices.
         """
@@ -127,8 +126,10 @@ class UserInterface(QMainWindow):
 
     @Slot()
     def plot(self):
-
+        
         if self.experiment.is_scanning.is_set():
+            
+            self.ui.progressBar.setValue(self.experiment.counter)
 
             self.ui.plotWidget.clear()
     
@@ -167,7 +168,6 @@ def main():
 
     app = QApplication(sys.argv)
     ui = UserInterface()
-    # ui.plot()
     ui.show()
     sys.exit(app.exec())
 
