@@ -1,7 +1,5 @@
-import csv
-import sys
-import time
-
+import csv, sys, time
+from pathlib import Path
 import numpy as np
 import pyqtgraph as pg
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
@@ -23,6 +21,8 @@ from pythondaq.ui_interface import Ui_MainWindow
 pg.setConfigOption("background", "k")
 pg.setConfigOption("foreground", "w")
 
+cwd = Path.cwd()
+
 class UserInterface(QMainWindow):
 
     def __init__(self):
@@ -36,7 +36,12 @@ class UserInterface(QMainWindow):
         self.ui.menuBar.setGeometry(QRect(0, 0, 800, 37))
 
         saveButton = QAction("Save", self)
-        saveButton.setIcon(QApplication.style().standardIcon(QStyle.SP_DesktopIcon))
+        saveButtonIconPath = cwd / "icons/saveIcon.png"
+        icon = QIcon()
+        icon.addPixmap(QPixmap(saveButtonIconPath))
+        saveButton.setIcon(icon)
+        # saveButton.setIcon(QApplication.style().standardIcon(QStyle.SP_DesktopIcon))
+
         saveButton.setStatusTip("Save data in csv file")
         saveButton.triggered.connect(self.save)
 

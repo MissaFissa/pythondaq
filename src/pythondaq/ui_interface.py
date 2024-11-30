@@ -20,10 +20,14 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
     QPushButton, QSizePolicy, QSpinBox, QStatusBar,
     QToolBar, QVBoxLayout, QWidget)
 
+from pathlib import Path
 from pyqtgraph import PlotWidget
 
+cwd = Path.cwd()
 class Ui_MainWindow(object):
+    
     def setupUi(self, MainWindow):
+        
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setWindowModality(Qt.WindowModality.NonModal)
@@ -204,7 +208,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.imageLabel = QLabel(self.imageFrame)
         self.imageLabel.setObjectName(u"imageLabel")
-        self.imageLabel.setPixmap(QPixmap(u"../../gus2.jpg"))
+        imageLabelPath = cwd / "icons/gus2.jpg"
+        self.imageLabel.setPixmap(QPixmap(imageLabelPath))
         self.imageLabel.setScaledContents(True)
 
         self.horizontalLayout_3.addWidget(self.imageLabel)
