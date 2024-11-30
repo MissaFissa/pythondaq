@@ -186,11 +186,27 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addWidget(self.deviceFrame)
 
-        self.scanButton = QPushButton(self.inputsFrame)
-        self.scanButton.setObjectName(u"scanButton")
-        self.scanButton.setStyleSheet(u"color: white; background-color: dimgrey")
+        self.startStopFrame = QFrame(self.inputsFrame)
+        self.startStopFrame.setObjectName(u"startStopFrame")
+        self.startStopFrame.setStyleSheet(u"background-color:  black\n"
+"")
+        self.startStopFrame.setFrameShape(QFrame.Shape.Box)
+        self.startStopFrame.setFrameShadow(QFrame.Shadow.Raised)
+        self.startStopFrame.setMidLineWidth(2)
+        self.horizontalLayout_5 = QHBoxLayout(self.startStopFrame)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        
+        self.startButton = QPushButton(self.inputsFrame)
+        self.startButton.setObjectName(u"startButton")
+        self.startButton.setStyleSheet(u"color: white; background-color: dimgrey")
+        self.horizontalLayout_5.addWidget(self.startButton)
 
-        self.verticalLayout_4.addWidget(self.scanButton)
+        self.stopButton = QPushButton(self.inputsFrame)
+        self.stopButton.setObjectName(u"stopButton")
+        self.stopButton.setStyleSheet(u"color: white; background-color: dimgrey")
+        self.horizontalLayout_5.addWidget(self.stopButton)
+
+        self.verticalLayout_4.addWidget(self.startStopFrame)
 
 
         self.verticalLayout_7.addWidget(self.inputsFrame)
@@ -214,9 +230,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.imageLabel)
 
-
         self.verticalLayout_7.addWidget(self.imageFrame)
-
 
         self.horizontalLayout_2.addWidget(self.leftFrame)
 
@@ -279,12 +293,10 @@ class Ui_MainWindow(object):
 "}")
         self.progressBar.setValue(24)
         self.progressBar.setTextVisible(False)
-
+        
         self.horizontalLayout.addWidget(self.progressBar)
 
-
         self.verticalLayout_6.addWidget(self.progressBarFrame)
-
 
         self.horizontalLayout_2.addWidget(self.plotFrame)
 
@@ -327,7 +339,8 @@ class Ui_MainWindow(object):
         self.stopLabel.setText(QCoreApplication.translate("MainWindow", u"Stop", None))
         self.iterationsLabel.setText(QCoreApplication.translate("MainWindow", u"Iterations", None))
         self.deviceLabel.setText(QCoreApplication.translate("MainWindow", u"Devices", None))
-        self.scanButton.setText(QCoreApplication.translate("MainWindow", u"Scan", None))
+        self.startButton.setText(QCoreApplication.translate("MainWindow", u"Start", None))
+        self.stopButton.setText(QCoreApplication.translate("MainWindow", u"Stop", None))
         self.imageLabel.setText("")
         self.progressBarLabel.setText(QCoreApplication.translate("MainWindow", u"Scan Progress", None))
         self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))

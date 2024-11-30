@@ -9,6 +9,8 @@ class DiodeExperiment:
         """Initialize variables used in the class.
         """
         self.device = ArduinoVISADevice(port = port)
+        self.is_scanning = threading.Event()
+        self.stop_scanning = threading.Event()
         self.resistance_resistor = 220
         self.errors_voltages = []
         self.errors_currents = []
@@ -30,17 +32,23 @@ class DiodeExperiment:
     def start_scan(self, start, stop, iterations):
         """Start a new thread to execute a scan.
         """
-        is_scanning = threading.Event()
-
-        if is_scanning.is_set() == False:
+        if self.is_scanning.is_set() == False:
 
             self._scan_thread = threading.Thread(
                 target = self.scan, args = (start, stop, iterations)
             )
             self._scan_thread.start()
-            is_scanning.set()
-            # # time.sleep(3)
-            # is_scanning.clear()
+            self.is_scanning.set()
+    
+    def stop_scan(self):
+
+        if not self.is_scanning.is_set():
+
+            print("No scan to stop.")
+
+            return
+
+        self.stop_scanning.set()
 
     def scan(self, start, stop, iterations):
         """Starts a measurement.
@@ -84,7 +92,8 @@ class DiodeExperiment:
             self.means_currents.append(np.mean((np.array(currents_LED))))
         
             time.sleep(0.01)
-   
+    
+        self.is_scanning.clear()
         self.device.set_output_value(value = 0)
         self.device.close()
 

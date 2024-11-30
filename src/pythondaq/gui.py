@@ -59,8 +59,6 @@ class UserInterface(QMainWindow):
 
         saveAction.triggered.connect(self.save)
 
-        # self.ui.plotButton.clicked.connect(self.plot)
-
         list_devices = self.devices()
 
         for device in list_devices:
@@ -72,16 +70,17 @@ class UserInterface(QMainWindow):
         # self.ui.progressBar.setMinimum(0)
         # self.ui.progressBar.setMaximum(self.n)
 
-        self.ui.scanButton.clicked.connect(self.start_scan)
+        self.ui.startButton.clicked.connect(self.start_scan)
+        self.ui.stopButton.clicked.connect(lambda: self.ui.startButton.setEnabled(True))
 
         self.plot_timer = QTimer()
         self.plot_timer.timeout.connect(self.plot)
-        self.plot_timer.start(10)
+        self.plot_timer.start(100)
 
         self.port = self.ui.deviceComboBox.currentText() 
 
         self.experiment = DiodeExperiment(port = self.port)
-
+            
     def devices(self):
         """Print list of connected devices.
         """
@@ -95,7 +94,7 @@ class UserInterface(QMainWindow):
         with open(f'{filepath}', 'w', newline = '') as csvfile:
         
             writer = csv.writer(csvfile)
-            header = ['Mean voltages LED', 'Mean currents LED', 'Errors voltages', 'Errors currents']
+            header = ['Mean voltages LED [V]', 'Mean currents LED [mA]', 'Errors voltages', 'Errors currents']
             writer.writerow(header)
 
             for mean_voltage_LED, mean_current_LED, errors_voltages, errors_currents in zip(self.experiment.means_voltages, self.experiment.means_currents, self.experiment.errors_voltages, self.experiment.errors_currents):
@@ -111,17 +110,17 @@ class UserInterface(QMainWindow):
     def start_scan(self):
         """Starts a scanning process with specified parameters.
         """
-        # self.ui.scanButton.setEnabled(False)
+        self.ui.startButton.setEnabled(False)
         
         start_value = self.ui.startSpinbox.value()
         stop_value = self.ui.stopSpinbox.value()
         iterations = self.ui.iterationsSpinbox.value()
 
         self.experiment.start_scan(start = start_value, stop = stop_value, iterations = iterations)
-        
+
     @Slot()
     def plot(self):
-
+        
         self.ui.plotWidget.clear()
   
         self.ui.plotWidget.plot(self.experiment.means_voltages, self.experiment.means_currents, symbol = "o", symbolSize = 5, pen = None)
@@ -135,7 +134,7 @@ class UserInterface(QMainWindow):
         # self.ui.plotWidget.setXRange(0.0, 2.0, padding = 0)
         # self.ui.plotWidget.setYRange(0.0, 0.007, padding = 0)
         self.ui.plotWidget.showGrid(x = True, y = True)
-  
+    
         # self.ui.plotWidget.clear()
   
         # start_value = self.ui.startSpinbox.value()
