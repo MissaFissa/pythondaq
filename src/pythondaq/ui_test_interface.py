@@ -17,22 +17,19 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
     QLabel, QMainWindow, QMenuBar, QProgressBar,
-    QPushButton, QSizePolicy, QSpinBox, QStatusBar,
-    QToolBar, QVBoxLayout, QWidget)
+    QPushButton, QSizePolicy, QSlider, QSpacerItem,
+    QSpinBox, QStatusBar, QToolBar, QVBoxLayout,
+    QWidget)
 
-from pathlib import Path
 from pyqtgraph import PlotWidget
 
-cwd = Path.cwd()
 class Ui_MainWindow(object):
-    
     def setupUi(self, MainWindow):
-        
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setWindowModality(Qt.WindowModality.NonModal)
-        MainWindow.resize(1239, 816)
-        MainWindow.setMinimumSize(QSize(1239, 816))
+        MainWindow.resize(1020, 715)
+        MainWindow.setMinimumSize(QSize(800, 700))
         MainWindow.setMaximumSize(QSize(16777214, 16777215))
         MainWindow.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         MainWindow.setAutoFillBackground(False)
@@ -84,6 +81,7 @@ class Ui_MainWindow(object):
         self.verticalLayout = QVBoxLayout(self.startBox)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.startValueLabel = QLabel(self.startBox)
+        self.startValueLabel.setMinimumHeight(18)
         self.startValueLabel.setObjectName(u"startValueLabel")
         self.startValueLabel.setStyleSheet(u"color: white")
 
@@ -111,6 +109,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_5 = QVBoxLayout(self.stopBox)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.stopValueLabel = QLabel(self.stopBox)
+        self.stopValueLabel.setMinimumHeight(18)
         self.stopValueLabel.setObjectName(u"stopValueLabel")
         self.stopValueLabel.setStyleSheet(u"color: white")
 
@@ -140,6 +139,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_3 = QVBoxLayout(self.iterations)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.iterationsLabel = QLabel(self.iterations)
+        self.iterationsLabel.setMinimumHeight(18)
         self.iterationsLabel.setObjectName(u"iterationsLabel")
         self.iterationsLabel.setStyleSheet(u"color: white")
 
@@ -171,6 +171,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2 = QVBoxLayout(self.deviceFrame)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.deviceLabel = QLabel(self.deviceFrame)
+        self.deviceLabel.setMinimumHeight(18)
         self.deviceLabel.setObjectName(u"deviceLabel")
         self.deviceLabel.setStyleSheet(u"color: white; background-color: dimgrey")
 
@@ -188,25 +189,29 @@ class Ui_MainWindow(object):
 
         self.startStopFrame = QFrame(self.inputsFrame)
         self.startStopFrame.setObjectName(u"startStopFrame")
-        self.startStopFrame.setStyleSheet(u"background-color:  black\n"
-"")
+        self.startStopFrame.setAutoFillBackground(False)
+        self.startStopFrame.setStyleSheet(u"background-color:  black")
         self.startStopFrame.setFrameShape(QFrame.Shape.Box)
         self.startStopFrame.setFrameShadow(QFrame.Shadow.Raised)
+        self.startStopFrame.setLineWidth(1)
         self.startStopFrame.setMidLineWidth(2)
-        self.horizontalLayout_5 = QHBoxLayout(self.startStopFrame)
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        
-        self.startButton = QPushButton(self.inputsFrame)
+        self.verticalLayout_8 = QVBoxLayout(self.startStopFrame)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.startButton = QPushButton(self.startStopFrame)
         self.startButton.setObjectName(u"startButton")
         self.startButton.setStyleSheet(u"color: white; background-color: dimgrey")
-        self.horizontalLayout_5.addWidget(self.startButton)
 
-        self.stopButton = QPushButton(self.inputsFrame)
+        self.verticalLayout_8.addWidget(self.startButton, 0, Qt.AlignmentFlag.AlignTop)
+
+        self.stopButton = QPushButton(self.startStopFrame)
         self.stopButton.setObjectName(u"stopButton")
         self.stopButton.setStyleSheet(u"color: white; background-color: dimgrey")
-        self.horizontalLayout_5.addWidget(self.stopButton)
+
+        self.verticalLayout_8.addWidget(self.stopButton, 0, Qt.AlignmentFlag.AlignVCenter)
+
 
         self.verticalLayout_4.addWidget(self.startStopFrame)
+
 
         self.verticalLayout_7.addWidget(self.inputsFrame)
 
@@ -219,17 +224,215 @@ class Ui_MainWindow(object):
         self.imageFrame.setFrameShadow(QFrame.Shadow.Raised)
         self.imageFrame.setLineWidth(3)
         self.imageFrame.setMidLineWidth(2)
-        self.horizontalLayout_3 = QHBoxLayout(self.imageFrame)
+        self.verticalLayout_12 = QVBoxLayout(self.imageFrame)
+        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
+        self.RangesLabelFrame = QFrame(self.imageFrame)
+        self.RangesLabelFrame.setObjectName(u"RangesLabelFrame")
+        self.RangesLabelFrame.setStyleSheet(u"background-color:b")
+        self.RangesLabelFrame.setFrameShape(QFrame.Shape.Box)
+        self.RangesLabelFrame.setFrameShadow(QFrame.Shadow.Raised)
+        self.RangesLabelFrame.setLineWidth(1)
+        self.RangesLabelFrame.setMidLineWidth(2)
+        self.horizontalLayout_3 = QHBoxLayout(self.RangesLabelFrame)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.imageLabel = QLabel(self.imageFrame)
-        self.imageLabel.setObjectName(u"imageLabel")
-        imageLabelPath = cwd / "icons/gus2.jpg"
-        self.imageLabel.setPixmap(QPixmap(imageLabelPath))
-        self.imageLabel.setScaledContents(True)
+        self.RangesLabel = QLabel(self.RangesLabelFrame)
+        self.RangesLabel.setObjectName(u"RangesLabel")
 
-        self.horizontalLayout_3.addWidget(self.imageLabel)
+        self.horizontalLayout_3.addWidget(self.RangesLabel)
+
+        self.horizontalSpacer = QSpacerItem(245, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer)
+
+
+        self.verticalLayout_12.addWidget(self.RangesLabelFrame)
+
+        self.x_yRangesFrame = QFrame(self.imageFrame)
+        self.x_yRangesFrame.setObjectName(u"x_yRangesFrame")
+        self.x_yRangesFrame.setStyleSheet(u"background-color:dimgrey")
+        self.x_yRangesFrame.setFrameShape(QFrame.Shape.Box)
+        self.x_yRangesFrame.setFrameShadow(QFrame.Shadow.Raised)
+        self.x_yRangesFrame.setMidLineWidth(2)
+        self.verticalLayout_11 = QVBoxLayout(self.x_yRangesFrame)
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.xRangeFrame = QFrame(self.x_yRangesFrame)
+        self.xRangeFrame.setObjectName(u"xRangeFrame")
+        self.xRangeFrame.setMinimumSize(QSize(301, 71))
+        self.xRangeFrame.setStyleSheet(u"background-color: dimgrey")
+        self.xRangeFrame.setFrameShape(QFrame.Shape.Box)
+        self.xRangeFrame.setFrameShadow(QFrame.Shadow.Sunken)
+        self.xRangeFrame.setMidLineWidth(1)
+        self.verticalLayout_9 = QVBoxLayout(self.xRangeFrame)
+        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.xRangeLabel = QLabel(self.xRangeFrame)
+        self.xRangeLabel.setObjectName(u"xRangeLabel")
+        self.xRangeLabel.setStyleSheet(u"")
+
+        self.verticalLayout_9.addWidget(self.xRangeLabel, 0,Qt.AlignmentFlag.AlignHCenter)
+
+        self.xRangeSlider = QSlider(self.xRangeFrame)
+        self.xRangeSlider.setObjectName(u"xRangeSlider")
+        self.xRangeSlider.setAutoFillBackground(False)
+        self.xRangeSlider.setSingleStep(0.1)
+        self.xRangeSlider.setTickPosition(QSlider.TickPosition.TicksAbove)
+
+        self.xRangeSlider.setStyleSheet(u"\n"
+"QSlider::groove:horizontal {\n"
+"border: 1px solid dodgerblue;\n"
+"background-color: black;\n"
+"height: 10px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::sub-page:horizontal {\n"
+"background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,\n"
+"    stop: 0 dodgerblue, stop: 1 dodgerblue\n"
+");\n"
+"background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,\n"
+"    stop: 0 b, stop: 1 #55f);\n"
+"border: 1px solid dodgerblue;\n"
+"height: 10px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::add-page:horizontal {\n"
+"background: b;\n"
+"border: 1px solid dodgerblue;\n"
+"height: 10px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal {\n"
+"background: qlineargradient(x1:0, y1:0, x2:1, y2:1,\n"
+"    stop:0 dodgerblue, stop:1 dodgerblue);\n"
+"border: 1px solid dodgerblue;\n"
+"width: 13px;\n"
+"margin-top: -2px;\n"
+"margin-bottom: -2px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal:hover {\n"
+"background: qlineargradient(x1:0, y1:0, x2:1, y2:1,\n"
+"    stop:0 red, stop:1 #ddd);\n"
+""
+                        "border: 1px solid #444;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::sub-page:horizontal:disabled {\n"
+"background: b;\n"
+"border-color: #999;\n"
+"}\n"
+"\n"
+"QSlider::add-page:horizontal:disabled {\n"
+"background: dodgerblue;\n"
+"border-color: dodgerblue;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal:disabled {\n"
+"background: dodgerblue;\n"
+"border: 1px solid dodgerblue;\n"
+"border-radius: 4px;}")
+        self.xRangeSlider.setOrientation(Qt.Orientation.Horizontal)
+        self.verticalLayout_9.addWidget(self.xRangeSlider)
+
+
+        self.verticalLayout_11.addWidget(self.xRangeFrame)
+
+        self.yRangeFrame = QFrame(self.x_yRangesFrame)
+        self.yRangeFrame.setObjectName(u"yRangeFrame")
+        self.yRangeFrame.setMinimumSize(QSize(301, 71))
+        self.yRangeFrame.setAutoFillBackground(False)
+        self.yRangeFrame.setStyleSheet(u"background-color: dimgrey")
+        self.yRangeFrame.setFrameShape(QFrame.Shape.Box)
+        self.yRangeFrame.setFrameShadow(QFrame.Shadow.Sunken)
+        self.yRangeFrame.setMidLineWidth(1)
+        self.verticalLayout_10 = QVBoxLayout(self.yRangeFrame)
+        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
+        self.yRangeLabel = QLabel(self.yRangeFrame)
+        self.yRangeLabel.setObjectName(u"yRangeLabel")
+        self.yRangeLabel.setStyleSheet(u"")
+
+        self.verticalLayout_10.addWidget(self.yRangeLabel, 0, Qt.AlignmentFlag.AlignHCenter)
+
+        self.yRangeSlider = QSlider(self.yRangeFrame)
+        self.yRangeSlider.setObjectName(u"yRangeSlider")
+        self.yRangeSlider.setAutoFillBackground(False)
+        self.yRangeSlider.setSingleStep(0.1)
+        self.yRangeSlider.setTickPosition(QSlider.TickPosition.TicksAbove)
+
+        self.yRangeSlider.setStyleSheet(u"\n"
+"QSlider::groove:horizontal {\n"
+"border: 1px solid dodgerblue;\n"
+"background-color: black;\n"
+"height: 10px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::sub-page:horizontal {\n"
+"background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,\n"
+"    stop: 0 dodgerblue, stop: 1 dodgerblue\n"
+");\n"
+"background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,\n"
+"    stop: 0 b, stop: 1 #55f);\n"
+"border: 1px solid dodgerblue;\n"
+"height: 10px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::add-page:horizontal {\n"
+"background: b;\n"
+"border: 1px solid dodgerblue;\n"
+"height: 10px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal {\n"
+"background: qlineargradient(x1:0, y1:0, x2:1, y2:1,\n"
+"    stop:0 dodgerblue, stop:1 dodgerblue);\n"
+"border: 1px solid dodgerblue;\n"
+"width: 13px;\n"
+"margin-top: -2px;\n"
+"margin-bottom: -2px;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal:hover {\n"
+"background: qlineargradient(x1:0, y1:0, x2:1, y2:1,\n"
+"    stop:0 red, stop:1 #ddd);\n"
+""
+                        "border: 1px solid #444;\n"
+"border-radius: 4px;\n"
+"}\n"
+"\n"
+"QSlider::sub-page:horizontal:disabled {\n"
+"background: b;\n"
+"border-color: #999;\n"
+"}\n"
+"\n"
+"QSlider::add-page:horizontal:disabled {\n"
+"background: dodgerblue;\n"
+"border-color: dodgerblue;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal:disabled {\n"
+"background: dodgerblue;\n"
+"border: 1px solid dodgerblue;\n"
+"border-radius: 4px;}")
+        self.yRangeSlider.setOrientation(Qt.Orientation.Horizontal)
+
+        self.verticalLayout_10.addWidget(self.yRangeSlider)
+
+
+        self.verticalLayout_11.addWidget(self.yRangeFrame)
+
+
+        self.verticalLayout_12.addWidget(self.x_yRangesFrame)
+
 
         self.verticalLayout_7.addWidget(self.imageFrame)
+
 
         self.horizontalLayout_2.addWidget(self.leftFrame)
 
@@ -256,8 +459,6 @@ class Ui_MainWindow(object):
         self.plotWidget.setFrameShadow(QFrame.Shadow.Plain)
         self.plotWidget.setLineWidth(0)
         self.plotWidget.setMidLineWidth(0)
-        self.plotWidget.setXRange(0.0, 2.0, padding = 0)
-        self.plotWidget.setYRange(0.0, 6.0, padding = 0)
 
         self.verticalLayout_6.addWidget(self.plotWidget)
 
@@ -265,7 +466,7 @@ class Ui_MainWindow(object):
         self.progressBarFrame.setObjectName(u"progressBarFrame")
         self.progressBarFrame.setMaximumSize(QSize(16777215, 16777215))
         self.progressBarFrame.setAutoFillBackground(False)
-        self.progressBarFrame.setStyleSheet(u"background-color: black")
+        self.progressBarFrame.setStyleSheet(u"background-color: b")
         self.progressBarFrame.setFrameShape(QFrame.Shape.Box)
         self.progressBarFrame.setFrameShadow(QFrame.Shadow.Sunken)
         self.progressBarFrame.setLineWidth(1)
@@ -293,38 +494,36 @@ class Ui_MainWindow(object):
 "	border-radius: 5px;\n"
 "}")
         self.progressBar.setValue(0)
-        self.progressBar.setTextVisible(True)
-        
+        self.progressBar.setTextVisible(False)
+
         self.horizontalLayout.addWidget(self.progressBar)
 
+
         self.verticalLayout_6.addWidget(self.progressBarFrame)
+
 
         self.horizontalLayout_2.addWidget(self.plotFrame)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menuBar = QMenuBar(MainWindow)
         self.menuBar.setObjectName(u"menuBar")
-        self.menuBar.setGeometry(QRect(0, 0, 1239, 21))
+        self.menuBar.setGeometry(QRect(0, 0, 1020, 21))
         self.menuBar.setAutoFillBackground(False)
         self.menuBar.setStyleSheet(u"color: dodgerblue;\n"
-"background-color: black;\n"
-)
+"background-color: black")
         self.menuBar.setDefaultUp(False)
         self.menuBar.setNativeMenuBar(False)
         MainWindow.setMenuBar(self.menuBar)
-
         self.statusBar = QStatusBar(MainWindow)
         self.statusBar.setObjectName(u"statusBar")
         MainWindow.setStatusBar(self.statusBar)
-    
         self.toolBar = QToolBar(MainWindow)
         self.toolBar.setObjectName(u"toolBar")
         self.toolBar.setMouseTracking(False)
         self.toolBar.setAcceptDrops(False)
         self.toolBar.setAutoFillBackground(False)
         self.toolBar.setStyleSheet(u"color: b;\n"
-"background-color: dodgerblue;\n"
-)
+"background-color: dodgerblue")
         self.toolBar.setMovable(False)
         self.toolBar.setIconSize(QSize(16, 16))
         MainWindow.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.toolBar)
@@ -332,15 +531,20 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         QMetaObject.connectSlotsByName(MainWindow)
+    # setupUi
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"GraphApp", None))
-        self.startValueLabel.setText(QCoreApplication.translate("MainWindow", u"Start Value", None))
-        self.stopValueLabel.setText(QCoreApplication.translate("MainWindow", u"Stop Value", None))
+        self.startValueLabel.setText(QCoreApplication.translate("MainWindow", u"Start", None))
+        self.stopValueLabel.setText(QCoreApplication.translate("MainWindow", u"Stop", None))
         self.iterationsLabel.setText(QCoreApplication.translate("MainWindow", u"Iterations", None))
         self.deviceLabel.setText(QCoreApplication.translate("MainWindow", u"Devices", None))
-        self.startButton.setText(QCoreApplication.translate("MainWindow", u"Start", None))
-        self.stopButton.setText(QCoreApplication.translate("MainWindow", u"Stop", None))
-        self.imageLabel.setText("")
+        self.startButton.setText(QCoreApplication.translate("MainWindow", u"Run", None))
+        self.stopButton.setText(QCoreApplication.translate("MainWindow", u"Quit", None))
+        self.RangesLabel.setText(QCoreApplication.translate("MainWindow", u"Ranges", None))
+        self.xRangeLabel.setText(QCoreApplication.translate("MainWindow", u"x", None))
+        self.yRangeLabel.setText(QCoreApplication.translate("MainWindow", u"y", None))
         self.progressBarLabel.setText(QCoreApplication.translate("MainWindow", u"Scan Progress", None))
         self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"Toolbar", None))
+    # retranslateUi
+

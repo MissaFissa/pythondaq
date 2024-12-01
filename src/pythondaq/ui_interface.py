@@ -264,7 +264,7 @@ class Ui_MainWindow(object):
         self.xRangeFrame.setMidLineWidth(1)
         self.verticalLayout_9 = QVBoxLayout(self.xRangeFrame)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
-        self.xRangeLabel = QLabel(self.xRangeFrame)
+        self.xRangeLabel = QLabel("", self.xRangeFrame)
         self.xRangeLabel.setObjectName(u"xRangeLabel")
         self.xRangeLabel.setStyleSheet(u"")
 
@@ -273,6 +273,8 @@ class Ui_MainWindow(object):
         self.xRangeSlider = QSlider(self.xRangeFrame)
         self.xRangeSlider.setObjectName(u"xRangeSlider")
         self.xRangeSlider.setAutoFillBackground(False)
+        self.xRangeSlider.setTickPosition(QSlider.TickPosition.TicksAbove)
+
         self.xRangeSlider.setStyleSheet(u"\n"
 "QSlider::groove:horizontal {\n"
 "border: 1px solid dodgerblue;\n"
@@ -332,7 +334,6 @@ class Ui_MainWindow(object):
 "border: 1px solid dodgerblue;\n"
 "border-radius: 4px;}")
         self.xRangeSlider.setOrientation(Qt.Orientation.Horizontal)
-
         self.verticalLayout_9.addWidget(self.xRangeSlider)
 
 
@@ -348,7 +349,7 @@ class Ui_MainWindow(object):
         self.yRangeFrame.setMidLineWidth(1)
         self.verticalLayout_10 = QVBoxLayout(self.yRangeFrame)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
-        self.yRangeLabel = QLabel(self.yRangeFrame)
+        self.yRangeLabel = QLabel("", self.yRangeFrame)
         self.yRangeLabel.setObjectName(u"yRangeLabel")
         self.yRangeLabel.setStyleSheet(u"")
 
@@ -357,6 +358,9 @@ class Ui_MainWindow(object):
         self.yRangeSlider = QSlider(self.yRangeFrame)
         self.yRangeSlider.setObjectName(u"yRangeSlider")
         self.yRangeSlider.setAutoFillBackground(False)
+
+        self.yRangeSlider.setTickPosition(QSlider.TickPosition.TicksAbove)
+
         self.yRangeSlider.setStyleSheet(u"\n"
 "QSlider::groove:horizontal {\n"
 "border: 1px solid dodgerblue;\n"

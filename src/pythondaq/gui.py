@@ -13,7 +13,7 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QDoubleSpinBox,
                                QFileDialog, QFrame, QGridLayout, QHBoxLayout,
                                QLabel, QLineEdit, QMainWindow, QMenuBar,
                                QPushButton, QSizePolicy, QSpinBox, QStatusBar,
-                               QStyle, QToolBar, QVBoxLayout, QWidget)
+                               QStyle, QToolBar, QVBoxLayout, QWidget, QSlider)
 
 # from pythondaq.diode_experiment import DiodeExperiment, list_resources
 
@@ -25,7 +25,6 @@ pg.setConfigOption("background", "k")
 pg.setConfigOption("foreground", "w")
 
 cwd = Path.cwd()
-
 class UserInterface(QMainWindow):
 
     def __init__(self):
@@ -62,6 +61,22 @@ class UserInterface(QMainWindow):
         self.n = np.abs(self.ui.stopSpinbox.value() - self.ui.startSpinbox.value())
 
         self.ui.progressBar.setRange(0, self.n)
+
+        self.ui.xRangeSlider.setRange(0, 10.0)
+        self.ui.xRangeSlider.setValue(5.0)
+        self.ui.xRangeSlider.valueChanged.connect(self.updateXRange)
+
+        self.ui.yRangeSlider.setRange(0, 10.0)
+        self.ui.yRangeSlider.setValue(5.0)
+        self.ui.yRangeSlider.valueChanged.connect(self.updateYRange)
+
+        self.ui.plotWidget.setLabel("bottom", "Mean voltages LED [V]")
+        # self.ui.plotWidget.setLabel("left", "Mean currents LED [A]")
+        self.ui.plotWidget.setLabel("left", "Mean currents LED [mA]")
+        self.ui.plotWidget.showGrid(x = True, y = True)
+
+        self.ui.plotWidget.setXRange(0.0, self.ui.xRangeSlider.value(), padding = 0)
+        self.ui.plotWidget.setYRange(0.0, self.ui.yRangeSlider.value(), padding = 0)
 
         self.ui.startButton.clicked.connect(self.start_scan)
         self.ui.stopButton.clicked.connect(self.stop_scan)
@@ -124,9 +139,19 @@ class UserInterface(QMainWindow):
         self.experiment.stop_scan()
         self.ui.startButton.setEnabled(True)
 
+    def updateXRange(self, value):
+
+        self.ui.xRangeLabel.setText(f"x: {value}")
+        self.ui.plotWidget.setXRange(0.0, value, padding = 0)
+
+    def updateYRange(self, value):
+
+        self.ui.yRangeLabel.setText(f"y: {value}")
+        self.ui.plotWidget.setYRange(0.0, value, padding = 0)
+
     @Slot()
     def plot(self):
-        
+
         if self.experiment.is_scanning.is_set():
             
             self.ui.progressBar.setValue(self.experiment.counter)
@@ -138,12 +163,8 @@ class UserInterface(QMainWindow):
             error_bars = pg.ErrorBarItem(x = np.array(self.experiment.means_voltages), y = np.array(self.experiment.means_currents), width = 2 * np.array(self.experiment.errors_voltages), height = 2 * np.array(self.experiment.errors_currents))
             self.ui.plotWidget.addItem(error_bars)
 
-            self.ui.plotWidget.setLabel("bottom", "Mean voltages LED [V]")
-            # self.ui.plotWidget.setLabel("left", "Mean currents LED [A]")
-            self.ui.plotWidget.setLabel("left", "Mean currents LED [mA]")
-            # self.ui.plotWidget.setXRange(0.0, 2.0, padding = 0)
-            # self.ui.plotWidget.setYRange(0.0, 6.0, padding = 0)
-            self.ui.plotWidget.showGrid(x = True, y = True)
+
+
         
             # self.ui.plotWidget.clear()
     
