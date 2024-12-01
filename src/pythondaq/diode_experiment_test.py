@@ -78,6 +78,7 @@ class DiodeExperiment:
                 voltages_resistor = []
                 voltages_LED = []
                 currents_LED = []
+                self.counter += 1
 
                 if self.stop_scanning.is_set():
 
@@ -92,7 +93,6 @@ class DiodeExperiment:
                     voltages_LED.append(voltage_LED)
                     current_LED = voltage_resistor / self.resistance_resistor
                     currents_LED.append(current_LED * 1000)
-                    self.counter += 1
         
                 self.errors_voltages.append(np.std((np.array(voltages_LED))) / np.sqrt(iterations))
                 self.errors_currents.append(np.std((np.array(currents_LED))) / np.sqrt(iterations))

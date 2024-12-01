@@ -62,8 +62,8 @@ class UserInterface(QMainWindow):
 
         self.ui.progressBar.setRange(0, self.n)
 
-        self.ui.xRangeSlider.setRange(0, 10.0)
-        self.ui.xRangeSlider.setValue(5.0)
+        self.ui.xRangeSlider.setRange(0, 5.0)
+        self.ui.xRangeSlider.setValue(2.5)
         self.ui.xRangeSlider.valueChanged.connect(self.updateXRange)
 
         self.ui.yRangeSlider.setRange(0, 10.0)
@@ -71,7 +71,6 @@ class UserInterface(QMainWindow):
         self.ui.yRangeSlider.valueChanged.connect(self.updateYRange)
 
         self.ui.plotWidget.setLabel("bottom", "Mean voltages LED [V]")
-        # self.ui.plotWidget.setLabel("left", "Mean currents LED [A]")
         self.ui.plotWidget.setLabel("left", "Mean currents LED [mA]")
         self.ui.plotWidget.showGrid(x = True, y = True)
 
@@ -132,12 +131,14 @@ class UserInterface(QMainWindow):
         iterations = self.ui.iterationsSpinbox.value()
 
         self.experiment.start_scan(start = start_value, stop = stop_value, iterations = iterations)
+        self.ui.statusBar.showMessage("Scan has been started...", 3000)
 
     @Slot()
     def stop_scan(self):
 
         self.experiment.stop_scan()
         self.ui.startButton.setEnabled(True)
+        self.ui.statusBar.showMessage("Scan has been stopped...", 3000)
 
     def updateXRange(self, value):
 
@@ -155,16 +156,17 @@ class UserInterface(QMainWindow):
         if self.experiment.is_scanning.is_set():
             
             self.ui.progressBar.setValue(self.experiment.counter)
-
+                    
             self.ui.plotWidget.clear()
     
             self.ui.plotWidget.plot(self.experiment.means_voltages, self.experiment.means_currents, symbol = "o", symbolSize = 5, pen = None)
 
             error_bars = pg.ErrorBarItem(x = np.array(self.experiment.means_voltages), y = np.array(self.experiment.means_currents), width = 2 * np.array(self.experiment.errors_voltages), height = 2 * np.array(self.experiment.errors_currents))
             self.ui.plotWidget.addItem(error_bars)
-
-
-
+        
+            if self.ui.progressBar.value() == self.n:
+                
+                self.ui.statusBar.showMessage("Scan has been completed...", 3000)
         
             # self.ui.plotWidget.clear()
     
