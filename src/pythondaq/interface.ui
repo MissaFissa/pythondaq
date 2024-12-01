@@ -9,14 +9,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1239</width>
-    <height>816</height>
+    <width>1020</width>
+    <height>715</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1239</width>
-    <height>816</height>
+    <width>800</width>
+    <height>700</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -95,7 +95,7 @@ border-color: black</string>
              <number>2</number>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <item alignment="">
+             <item>
               <widget class="QFrame" name="startBox">
                <property name="minimumSize">
                 <size>
@@ -120,12 +120,12 @@ border-color: black</string>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout">
                 <item>
-                 <widget class="QLabel" name="startLabel">
+                 <widget class="QLabel" name="startValueLabel">
                   <property name="styleSheet">
                    <string notr="true">color: white</string>
                   </property>
                   <property name="text">
-                   <string>Start </string>
+                   <string>Start Value</string>
                   </property>
                  </widget>
                 </item>
@@ -151,7 +151,7 @@ border-color: black</string>
                </layout>
               </widget>
              </item>
-             <item alignment="">
+             <item>
               <widget class="QFrame" name="stopBox">
                <property name="minimumSize">
                 <size>
@@ -173,12 +173,12 @@ border-color: black</string>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_5">
                 <item>
-                 <widget class="QLabel" name="stopLabel">
+                 <widget class="QLabel" name="stopValueLabel">
                   <property name="styleSheet">
                    <string notr="true">color: white</string>
                   </property>
                   <property name="text">
-                   <string>Stop</string>
+                   <string>Stop Value</string>
                   </property>
                  </widget>
                 </item>
@@ -309,13 +309,47 @@ border-color: black</string>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="plotButton">
+           <widget class="QFrame" name="startStopFrame">
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
             <property name="styleSheet">
-             <string notr="true">color: white; background-color: dimgrey</string>
+             <string notr="true">background-color:  black</string>
             </property>
-            <property name="text">
-             <string>Plot</string>
+            <property name="frameShape">
+             <enum>QFrame::Shape::Box</enum>
             </property>
+            <property name="frameShadow">
+             <enum>QFrame::Shadow::Raised</enum>
+            </property>
+            <property name="lineWidth">
+             <number>1</number>
+            </property>
+            <property name="midLineWidth">
+             <number>2</number>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+             <item alignment="Qt::AlignmentFlag::Qt::AlignmentFlag::AlignTop">
+              <widget class="QPushButton" name="startButton">
+               <property name="styleSheet">
+                <string notr="true">color: white; background-color: dimgrey</string>
+               </property>
+               <property name="text">
+                <string>Start</string>
+               </property>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignmentFlag::Qt::AlignmentFlag::AlignVCenter">
+              <widget class="QPushButton" name="stopButton">
+               <property name="styleSheet">
+                <string notr="true">color: white; background-color: dimgrey</string>
+               </property>
+               <property name="text">
+                <string>Stop</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
@@ -347,18 +381,273 @@ border-color: black</string>
          <property name="midLineWidth">
           <number>2</number>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <layout class="QVBoxLayout" name="verticalLayout_12">
           <item>
-           <widget class="QLabel" name="imageLabel">
-            <property name="text">
-             <string/>
+           <widget class="QFrame" name="RangesLabelFrame">
+            <property name="styleSheet">
+             <string notr="true">background-color:b</string>
             </property>
-            <property name="pixmap">
-             <pixmap>../../gus2.jpg</pixmap>
+            <property name="frameShape">
+             <enum>QFrame::Shape::Box</enum>
             </property>
-            <property name="scaledContents">
-             <bool>true</bool>
+            <property name="frameShadow">
+             <enum>QFrame::Shadow::Raised</enum>
             </property>
+            <property name="lineWidth">
+             <number>1</number>
+            </property>
+            <property name="midLineWidth">
+             <number>2</number>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QLabel" name="RangesLabel">
+               <property name="text">
+                <string>Ranges</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Orientation::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>245</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="x_yRangesFrame">
+            <property name="styleSheet">
+             <string notr="true">background-color:dimgrey</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::Shape::Box</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Shadow::Raised</enum>
+            </property>
+            <property name="midLineWidth">
+             <number>2</number>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_11">
+             <item>
+              <widget class="QFrame" name="xRangeFrame">
+               <property name="minimumSize">
+                <size>
+                 <width>301</width>
+                 <height>71</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: dimgrey</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::Shape::Box</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Shadow::Sunken</enum>
+               </property>
+               <property name="midLineWidth">
+                <number>1</number>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_9">
+                <item alignment="|Qt::AlignmentFlag::AlignBottom">
+                 <widget class="QLabel" name="xRangeLabel">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string>x</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="xRangeSlider">
+                  <property name="autoFillBackground">
+                   <bool>false</bool>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">
+QSlider::groove:horizontal {
+border: 1px solid dodgerblue;
+background-color: black;
+height: 10px;
+border-radius: 4px;
+}
+
+QSlider::sub-page:horizontal {
+background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,
+    stop: 0 dodgerblue, stop: 1 dodgerblue
+);
+background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,
+    stop: 0 b, stop: 1 #55f);
+border: 1px solid dodgerblue;
+height: 10px;
+border-radius: 4px;
+}
+
+QSlider::add-page:horizontal {
+background: b;
+border: 1px solid dodgerblue;
+height: 10px;
+border-radius: 4px;
+}
+
+QSlider::handle:horizontal {
+background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+    stop:0 dodgerblue, stop:1 dodgerblue);
+border: 1px solid dodgerblue;
+width: 13px;
+margin-top: -2px;
+margin-bottom: -2px;
+border-radius: 4px;
+}
+
+QSlider::handle:horizontal:hover {
+background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+    stop:0 red, stop:1 #ddd);
+border: 1px solid #444;
+border-radius: 4px;
+}
+
+QSlider::sub-page:horizontal:disabled {
+background: b;
+border-color: #999;
+}
+
+QSlider::add-page:horizontal:disabled {
+background: dodgerblue;
+border-color: dodgerblue;
+}
+
+QSlider::handle:horizontal:disabled {
+background: dodgerblue;
+border: 1px solid dodgerblue;
+border-radius: 4px;}</string>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Orientation::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="yRangeFrame">
+               <property name="minimumSize">
+                <size>
+                 <width>301</width>
+                 <height>71</height>
+                </size>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: dimgrey</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::Shape::Box</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Shadow::Sunken</enum>
+               </property>
+               <property name="midLineWidth">
+                <number>1</number>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_10">
+                <item alignment="">
+                 <widget class="QLabel" name="yRangeLabel">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string>y</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="yRangeSlider">
+                  <property name="autoFillBackground">
+                   <bool>false</bool>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">
+QSlider::groove:horizontal {
+border: 1px solid dodgerblue;
+background-color: black;
+height: 10px;
+border-radius: 4px;
+}
+
+QSlider::sub-page:horizontal {
+background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,
+    stop: 0 dodgerblue, stop: 1 dodgerblue
+);
+background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,
+    stop: 0 b, stop: 1 #55f);
+border: 1px solid dodgerblue;
+height: 10px;
+border-radius: 4px;
+}
+
+QSlider::add-page:horizontal {
+background: b;
+border: 1px solid dodgerblue;
+height: 10px;
+border-radius: 4px;
+}
+
+QSlider::handle:horizontal {
+background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+    stop:0 dodgerblue, stop:1 dodgerblue);
+border: 1px solid dodgerblue;
+width: 13px;
+margin-top: -2px;
+margin-bottom: -2px;
+border-radius: 4px;
+}
+
+QSlider::handle:horizontal:hover {
+background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+    stop:0 red, stop:1 #ddd);
+border: 1px solid #444;
+border-radius: 4px;
+}
+
+QSlider::sub-page:horizontal:disabled {
+background: b;
+border-color: #999;
+}
+
+QSlider::add-page:horizontal:disabled {
+background: dodgerblue;
+border-color: dodgerblue;
+}
+
+QSlider::handle:horizontal:disabled {
+background: dodgerblue;
+border: 1px solid dodgerblue;
+border-radius: 4px;}</string>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Orientation::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
@@ -507,7 +796,7 @@ QProgressBar::chunk {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1239</width>
+     <width>1020</width>
      <height>21</height>
     </rect>
    </property>

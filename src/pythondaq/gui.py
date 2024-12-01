@@ -142,7 +142,7 @@ class UserInterface(QMainWindow):
             # self.ui.plotWidget.setLabel("left", "Mean currents LED [A]")
             self.ui.plotWidget.setLabel("left", "Mean currents LED [mA]")
             # self.ui.plotWidget.setXRange(0.0, 2.0, padding = 0)
-            # self.ui.plotWidget.setYRange(0.0, 0.007, padding = 0)
+            # self.ui.plotWidget.setYRange(0.0, 6.0, padding = 0)
             self.ui.plotWidget.showGrid(x = True, y = True)
         
             # self.ui.plotWidget.clear()
