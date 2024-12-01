@@ -9,14 +9,13 @@ class DiodeExperiment:
         """Initialize variables used in the class.
         """
         self.device = ArduinoVISADevice(port = port)
-        self.is_scanning = threading.Event()
-        self.stop_scanning = threading.Event()
         self.resistance_resistor = 220
+        self.voltages_LED_repeats = []
+        self.currents_LED_repeats = []
         self.errors_voltages = []
         self.errors_currents = []
         self.means_voltages = []
         self.means_currents = []
-        self.counter = 0
 
     def get_identification(self):
         """return identification string of connected device.
@@ -29,26 +28,6 @@ class DiodeExperiment:
     def close(self):
 
         self.device.close()
-
-    def start_scan(self, start, stop, iterations):
-        """Start a new thread to execute a scan.
-        """
-        if  self.is_scanning.is_set():
-
-            return
-
-        self.is_scanning.set()
-        self.stop_scanning.clear()
-        self._scan_thread = threading.Thread(target = self.scan, args = (start, stop, iterations))
-        self._scan_thread.start()
-    
-    def stop_scan(self):
-
-        if not self.is_scanning.is_set():
-
-            return
-
-        self.stop_scanning.set()
 
     def scan(self, start, stop, iterations):
         """Starts a measurement.
@@ -65,44 +44,32 @@ class DiodeExperiment:
             list: list containing the means of the currents.
         """
         raw_values = [raw_value for raw_value in range(start, stop + 1)]
-        self.errors_voltages = []
-        self.errors_currents = []
-        self.means_voltages = []
-        self.means_currents = []
-        self.counter = 0
-        
-        try:
-                
+
+        for _ in range(iterations):
+
+            voltages_resistor = []
+            voltages_LED = []
+            currents_LED = []
+
             for raw_value in raw_values:
 
-                voltages_resistor = []
-                voltages_LED = []
-                currents_LED = []
-                self.counter += 1
-
-                if self.stop_scanning.is_set():
-
-                    break
-                
-                for _ in range(iterations):
-
-                    self.device.set_output_value(value = raw_value)
-                    voltage_resistor = self.device.get_input_voltage(channel = 2)
-                    voltage_LED = self.device.get_input_voltage(channel = 1) - voltage_resistor
-                    voltages_resistor.append(voltage_resistor)
-                    voltages_LED.append(voltage_LED)
-                    current_LED = voltage_resistor / self.resistance_resistor
-                    currents_LED.append(current_LED * 1000)
-        
-                self.errors_voltages.append(np.std((np.array(voltages_LED))) / np.sqrt(iterations))
-                self.errors_currents.append(np.std((np.array(currents_LED))) / np.sqrt(iterations))
-                self.means_voltages.append(np.mean((np.array(voltages_LED))))
-                self.means_currents.append(np.mean((np.array(currents_LED))))
+                self.device.set_output_value(value = raw_value)
+                voltage_resistor = self.device.get_input_voltage(channel = 2)
+                voltage_LED = self.device.get_input_voltage(channel = 1) - voltage_resistor
+                voltages_resistor.append(voltage_resistor)
+                voltages_LED.append(voltage_LED)
+                current_LED = voltage_resistor / self.resistance_resistor
+                currents_LED.append(current_LED)
             
-                time.sleep(0.01)
+            self.voltages_LED_repeats.append(voltages_LED)
+            self.currents_LED_repeats.append(currents_LED)
 
-        finally:
+        self.errors_voltages = np.std((np.array(self.voltages_LED_repeats)), axis = 0) / np.sqrt(iterations)
+        self.errors_currents = np.std((np.array(self.currents_LED_repeats)), axis = 0) / np.sqrt(iterations)
+        self.means_voltages = np.mean((np.array(self.voltages_LED_repeats)), axis = 0)
+        self.means_currents = np.mean((np.array(self.currents_LED_repeats)), axis = 0)
 
-            self.is_scanning.clear()
-            self.device.set_output_value(value = 0)
-            self.device.close()
+        self.device.set_output_value(value = 0)
+        self.device.close()
+
+        return self.errors_voltages, self.errors_currents, self.means_voltages, self.means_currents, self.voltages_LED_repeats, self.currents_LED_repeats

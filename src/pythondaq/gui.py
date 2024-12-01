@@ -1,4 +1,4 @@
-import csv, sys, time, threading
+import csv, sys
 from pathlib import Path
 import numpy as np
 import pyqtgraph as pg
@@ -15,9 +15,7 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QDoubleSpinBox,
                                QPushButton, QSizePolicy, QSpinBox, QStatusBar,
                                QStyle, QToolBar, QVBoxLayout, QWidget, QSlider)
 
-# from pythondaq.diode_experiment import DiodeExperiment, list_resources
-
-from pythondaq.diode_experiment_test import DiodeExperiment, list_resources
+from pythondaq.diode_experiment import DiodeExperiment, list_resources
 
 from pythondaq.ui_interface import Ui_MainWindow
 
@@ -95,13 +93,14 @@ class UserInterface(QMainWindow):
         self.experiment = DiodeExperiment(port = self.port)
 
     def devices(self):
-        """Print list of connected devices.
+        """Returns list of connected devices.
         """
         # return list_resources()
         return ["ASRL::SIMLED::INSTR"]
 
     def save(self):
-
+        """Creates a csv file containing the means of the voltages and currents, along with their corresponding errors.
+        """
         filepath, _ = QFileDialog.getSaveFileName(filter = "CSV files (*.csv)")    
 
         with open(f'{filepath}', 'w', newline = '') as csvfile:
@@ -135,24 +134,34 @@ class UserInterface(QMainWindow):
 
     @Slot()
     def stop_scan(self):
-
+        """Stops a scanning process.
+        """
         self.experiment.stop_scan()
         self.ui.startButton.setEnabled(True)
         self.ui.statusBar.showMessage("Scan has been stopped...", 3000)
 
     def updateXRange(self, value):
+        """Updates the xRangeLabel and XRange to the new value of the xRangeSlider.
 
+        Args:
+            value (int): updated value of the xRangeSlider.
+        """
         self.ui.xRangeLabel.setText(f"x: {value}")
         self.ui.plotWidget.setXRange(0.0, value, padding = 0)
 
     def updateYRange(self, value):
+        """Updates the yRangeLabel and YRange to the new value of the yRangeSlider.
 
+        Args:
+            value (int): updated value of the yRangeSlider.
+        """
         self.ui.yRangeLabel.setText(f"y: {value}")
         self.ui.plotWidget.setYRange(0.0, value, padding = 0)
 
     @Slot()
     def plot(self):
-
+        """Updates the plotWidget when scan is running.
+        """
         if self.experiment.is_scanning.is_set():
             
             self.ui.progressBar.setValue(self.experiment.counter)
@@ -168,25 +177,6 @@ class UserInterface(QMainWindow):
                 
                 self.ui.statusBar.showMessage("Scan has been completed...", 3000)
         
-            # self.ui.plotWidget.clear()
-    
-            # start_value = self.ui.startSpinbox.value()
-            # stop_value = self.ui.stopSpinbox.value()
-            # iterations = self.ui.iterationsSpinbox.value()
-            # port = self.ui.deviceComboBox.currentText() 
-            
-            # experiment = DiodeExperiment(port = port)
-
-            # self.errors_voltages, self.errors_currents, self.means_voltages, self.means_currents, self.voltages_LED, self.currents_LED = experiment.scan(start = start_value, stop = stop_value, iterations = iterations)
-
-            # self.ui.plotWidget.plot(self.means_voltages, self.means_currents, symbol = "o", symbolSize = 5, pen = None)
-
-            # self.ui.plotWidget.setLabel("bottom", "Mean voltages LED [V]")
-            # self.ui.plotWidget.setLabel("left", "Mean currents LED [A]")
-            # error_bars = pg.ErrorBarItem(x = self.means_voltages, y = self.means_currents, width = 2 * self.errors_voltages, height = 2 * self.errors_currents)
-            # self.ui.plotWidget.addItem(error_bars)
-            # self.ui.plotWidget.showGrid(x = True, y = True)
-
 def main():
 
     app = QApplication(sys.argv)
