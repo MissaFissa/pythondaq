@@ -50,7 +50,6 @@ class UserInterface(QMainWindow):
         saveAction.setShortcut("Ctrl+S")
         fileMenu.addAction(saveAction)
         saveAction.triggered.connect(self.save)
-
   
         saveAsAction = QAction("Save As...", self)
         saveAsAction.setShortcut("Shift+Ctrl+S")
@@ -59,12 +58,12 @@ class UserInterface(QMainWindow):
         
         fileMenu.addSeparator()
 
-        exitAction = QAction("Exit", self)
-        exitAction.setStatusTip('Exit')
-        exitAction.setShortcut('Shift+Ctrl+W')
-        fileMenu.addAction(exitAction)
-        exitAction.triggered.connect(self.quit)
-
+        quitAction =  QAction("Quit", self)
+        quitAction.setStatusTip("Quit")
+        quitAction.setShortcut("Shift+Ctrl+W")
+        quitAction.setMenuRole(QAction.MenuRole.QuitRole)
+        fileMenu.addAction(quitAction)
+        quitAction.triggered.connect(self.closeWindow)
 
         scanMenu = self.ui.menuBar.addMenu("Run")
         runAction = QAction("Start", self)
@@ -133,7 +132,7 @@ class UserInterface(QMainWindow):
         self.ui.stopButton.clicked.connect(self.stop_scan)
 
         self.plot_timer = QTimer()
-        self.plot_timer.timeout.connect(self.plot)
+        self.plot_timer.timeout.connect(self.updatePlot)
         self.plot_timer.start(100)
 
         list_devices = self.devices()
@@ -203,10 +202,33 @@ class UserInterface(QMainWindow):
         if filename:
             
             self.path = Path(filename)
-    
-    def quit(self):
+            df = pd.read_csv(self.path)
 
-        self.destroy()
+            pd.to_numeric(df['Mean voltages LED [V]'], errors = 'coerce').notna()
+            pd.to_numeric(df['Mean currents LED [mA]'], errors = 'coerce').notna()
+            pd.to_numeric(df['Errors voltages'], errors = 'coerce').notna()
+            pd.to_numeric(df['Errors currents'], errors = 'coerce').notna()
+
+            df['means_voltages'] = df['Mean voltages LED [V]'].astype(float)
+            df['means_currents'] = df['Mean currents LED [mA]'].astype(float)
+            df['errors_voltages'] = df['Errors voltages'].astype(float)
+            df['errors_currents'] = df['Errors currents'].astype(float)
+
+            means_voltages = df['means_voltages'].tolist()
+            means_currents = df['means_currents'].tolist()
+            errors_voltages = df['errors_voltages'].tolist()
+            errors_currents = df['errors_currents'].tolist()
+
+            self.ui.plotWidget.clear()
+    
+            self.ui.plotWidget.plot(means_voltages, means_currents, symbol = "o", symbolSize = 5, pen = None)
+
+            error_bars = pg.ErrorBarItem(x = np.array(means_voltages), y = np.array(means_currents), width = 2 * np.array(errors_voltages), height = 2 * np.array(errors_currents))
+            self.ui.plotWidget.addItem(error_bars)
+        
+    def closeWindow(self):
+
+        sys.exit()
 
     @Slot()
     def start_scan(self):
@@ -251,7 +273,7 @@ class UserInterface(QMainWindow):
         self.ui.plotWidget.setYRange(0, value / 10)
 
     @Slot()
-    def plot(self):
+    def updatePlot(self):
         """Updates the plotWidget when scan is running.
         """
         if self.experiment.is_scanning.is_set():
@@ -268,7 +290,7 @@ class UserInterface(QMainWindow):
             if self.ui.progressBar.value() == self.n:
                 
                 self.ui.statusBar.showMessage("Scan has been completed...", 3000)
-        
+
 def main():
 
     app = QApplication(sys.argv)
