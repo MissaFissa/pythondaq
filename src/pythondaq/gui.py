@@ -20,8 +20,9 @@ from pythondaq.diode_experiment import DiodeExperiment, list_resources
 
 from pythondaq.ui_interface import Ui_MainWindow
 
-pg.setConfigOption("background", "k")
+# pg.setConfigOption("background", "k")
 pg.setConfigOption("foreground", "w")
+pg.setConfigOptions(antialias = True)
 
 cwd = Path.cwd()
 class UserInterface(QMainWindow):
@@ -36,6 +37,8 @@ class UserInterface(QMainWindow):
         self.ui.menuBar = QMenuBar()
         self.ui.menuBar.setGeometry(QRect(0, 0, 800, 37))
 
+        self.backgroundColor = "black"
+        self.dataColor = "white"
         self.path = None
 
         fileMenu = self.ui.menuBar.addMenu("File")
@@ -128,6 +131,9 @@ class UserInterface(QMainWindow):
         self.ui.plotWidget.setXRange(0, self.ui.xRangeSlider.value() / 10)
         self.ui.plotWidget.setYRange(0, self.ui.yRangeSlider.value() / 10)
 
+        self.ui.backgroundColourLineEdit.returnPressed.connect(self.updateBackgroundColor)
+        self.ui.dataColourLineEdit.returnPressed.connect(self.updateDataColor)
+
         self.ui.startButton.clicked.connect(self.start_scan)
         self.ui.stopButton.clicked.connect(self.stop_scan)
 
@@ -174,7 +180,6 @@ class UserInterface(QMainWindow):
     def saveAs(self):
         """Creates a csv file containing the means of the voltages and currents, along with their corresponding errors.
         """
-
         filepath, _ = QFileDialog.getSaveFileName(filter = "CSV files (*.csv)")    
       
         if not filepath:
@@ -272,6 +277,14 @@ class UserInterface(QMainWindow):
         self.ui.yRangeLabel.setText(f"y: {value / 10}")
         self.ui.plotWidget.setYRange(0, value / 10)
 
+    def updateDataColor(self):
+        
+        self.dataColor = self.ui.dataColourLineEdit.text()
+
+    def updateBackgroundColor(self):
+
+        self.backgroundColor = self.ui.backgroundColourLineEdit.text()
+
     @Slot()
     def updatePlot(self):
         """Updates the plotWidget when scan is running.
@@ -282,7 +295,8 @@ class UserInterface(QMainWindow):
                     
             self.ui.plotWidget.clear()
     
-            self.ui.plotWidget.plot(self.experiment.means_voltages, self.experiment.means_currents, symbol = "o", symbolSize = 5, pen = None)
+            self.ui.plotWidget.plot(self.experiment.means_voltages, self.experiment.means_currents, symbol = "o",  symbolPen = self.dataColor, symbolSize = 5, pen = None)
+            self.ui.plotWidget.setBackground(self.backgroundColor)
 
             error_bars = pg.ErrorBarItem(x = np.array(self.experiment.means_voltages), y = np.array(self.experiment.means_currents), width = 2 * np.array(self.experiment.errors_voltages), height = 2 * np.array(self.experiment.errors_currents))
             self.ui.plotWidget.addItem(error_bars)
