@@ -2,6 +2,7 @@ import csv, sys
 from pathlib import Path
 import numpy as np
 import pyqtgraph as pg
+import pandas as pd
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
                             QMetaObject, QObject, QPoint, QRect, QSize, Qt,
                             QTime, QUrl, Slot, QTimer)
@@ -35,45 +36,98 @@ class UserInterface(QMainWindow):
         self.ui.menuBar = QMenuBar()
         self.ui.menuBar.setGeometry(QRect(0, 0, 800, 37))
 
-        saveButton = QAction("Save", self)
-        saveButtonIconPath = cwd / "icons/saveIcon.png"
-        icon = QIcon()
-        icon.addPixmap(QPixmap(saveButtonIconPath))
-        saveButton.setIcon(icon)
-
-        saveButton.setStatusTip("Save data in csv file")
-        saveButton.triggered.connect(self.save)
-
-        self.ui.toolBar.addAction(saveButton)
+        self.path = None
 
         fileMenu = self.ui.menuBar.addMenu("File")
 
+        openAction = QAction("Open...", self)
+        openAction.setStatusTip("Open a document")
+        openAction.setShortcut("Ctrl+O")
+        openAction.triggered.connect(self.open)
+        fileMenu.addAction(openAction)
+
         saveAction = QAction("Save", self)
-
         saveAction.setShortcut("Ctrl+S")
-
         fileMenu.addAction(saveAction)
-
         saveAction.triggered.connect(self.save)
+
+  
+        saveAsAction = QAction("Save As...", self)
+        saveAsAction.setShortcut("Shift+Ctrl+S")
+        fileMenu.addAction(saveAsAction)
+        saveAsAction.triggered.connect(self.saveAs)
+        
+        fileMenu.addSeparator()
+
+        exitAction = QAction("Exit", self)
+        exitAction.setStatusTip('Exit')
+        exitAction.setShortcut('Shift+Ctrl+W')
+        fileMenu.addAction(exitAction)
+        exitAction.triggered.connect(self.quit)
+
+
+        scanMenu = self.ui.menuBar.addMenu("Run")
+        runAction = QAction("Start", self)
+        runAction.setShortcut("F5")
+        scanMenu.addAction(runAction)
+        runAction.triggered.connect(self.start_scan)
+
+        stopAction = QAction("Stop", self)
+        stopAction.setShortcut("Shift+F5")
+        scanMenu.addAction(stopAction)
+        stopAction.triggered.connect(self.stop_scan)
+
+        saveAsButton = QAction("Save As...", self)
+        saveAsButtonIconPath = cwd / "icons/saveIcon.png"
+        saveAsIcon = QIcon()
+        saveAsIcon.addPixmap(QPixmap(saveAsButtonIconPath))
+        saveAsButton.setIcon(saveAsIcon)
+        saveAsButton.setStatusTip("Save data in csv file")
+        self.ui.toolBar.addAction(saveAsButton)
+        saveAsButton.triggered.connect(self.saveAs)
+
+        playButton = QAction("Start", self)
+        playButtonIconPath = cwd / "icons/playIcon.png"
+        playIcon = QIcon()
+        playIcon.addPixmap(QPixmap(playButtonIconPath))
+        playButton.setIcon(playIcon)
+        playButton.setStatusTip("Start a scan")
+        self.ui.toolBar.addAction(playButton)
+        playButton.triggered.connect(self.start_scan)
+
+        endButton = QAction("Stop", self)
+        endButtonIconPath = cwd / "icons/stopIcon.png"
+        endIcon = QIcon()
+        endIcon.addPixmap(QPixmap(endButtonIconPath))
+        endButton.setIcon(endIcon)
+        endButton.setStatusTip("Stop scanning")
+        self.ui.toolBar.addAction(endButton)
+        endButton.triggered.connect(self.stop_scan)
 
         self.n = np.abs(self.ui.stopSpinbox.value() - self.ui.startSpinbox.value())
 
         self.ui.progressBar.setRange(0, self.n)
 
-        self.ui.xRangeSlider.setRange(0, 5.0)
-        self.ui.xRangeSlider.setValue(2.5)
+        self.ui.xRangeSlider.setRange(0, 50)
+        self.ui.xRangeSlider.setValue(25)
+        self.ui.xRangeSlider.setSingleStep(5)
+        self.ui.xRangeLabel.setText(f"x: {self.ui.xRangeSlider.value() / 10}")
+        self.ui.xRangeSlider.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
         self.ui.xRangeSlider.valueChanged.connect(self.updateXRange)
 
-        self.ui.yRangeSlider.setRange(0, 10.0)
-        self.ui.yRangeSlider.setValue(5.0)
+        self.ui.yRangeSlider.setRange(0, 100)
+        self.ui.yRangeSlider.setValue(50)
+        self.ui.yRangeSlider.setSingleStep(5)
+        self.ui.yRangeLabel.setText(f"y: {self.ui.yRangeSlider.value() / 10}")
+        self.ui.yRangeSlider.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
         self.ui.yRangeSlider.valueChanged.connect(self.updateYRange)
 
         self.ui.plotWidget.setLabel("bottom", "Mean voltages LED [V]")
         self.ui.plotWidget.setLabel("left", "Mean currents LED [mA]")
         self.ui.plotWidget.showGrid(x = True, y = True)
 
-        self.ui.plotWidget.setXRange(0.0, self.ui.xRangeSlider.value(), padding = 0)
-        self.ui.plotWidget.setYRange(0.0, self.ui.yRangeSlider.value(), padding = 0)
+        self.ui.plotWidget.setXRange(0, self.ui.xRangeSlider.value() / 10)
+        self.ui.plotWidget.setYRange(0, self.ui.yRangeSlider.value() / 10)
 
         self.ui.startButton.clicked.connect(self.start_scan)
         self.ui.stopButton.clicked.connect(self.stop_scan)
@@ -99,9 +153,36 @@ class UserInterface(QMainWindow):
         return ["ASRL::SIMLED::INSTR"]
 
     def save(self):
+
+        if (self.path):
+
+            with open(f'{self.path}', 'w', newline = '') as existing_csvfile:
+        
+                writer = csv.writer(existing_csvfile)
+                header = ['Mean voltages LED [V]', 'Mean currents LED [mA]', 'Errors voltages', 'Errors currents']
+                writer.writerow(header)
+
+                for mean_voltage_LED, mean_current_LED, errors_voltages, errors_currents in zip(self.experiment.means_voltages, self.experiment.means_currents, self.experiment.errors_voltages, self.experiment.errors_currents):
+
+                    writer.writerow([mean_voltage_LED, mean_current_LED, errors_voltages, errors_currents])
+        
+                self.ui.statusBar.showMessage(f"The file has been saved...", 3000)
+
+        if not (self.path):
+
+            return
+        
+    def saveAs(self):
         """Creates a csv file containing the means of the voltages and currents, along with their corresponding errors.
         """
+
         filepath, _ = QFileDialog.getSaveFileName(filter = "CSV files (*.csv)")    
+      
+        if not filepath:
+
+            return
+
+        self.path = Path(filepath)
 
         with open(f'{filepath}', 'w', newline = '') as csvfile:
         
@@ -113,18 +194,27 @@ class UserInterface(QMainWindow):
 
                 writer.writerow([mean_voltage_LED, mean_current_LED, errors_voltages, errors_currents])
         
-            self.ui.statusBar.showMessage("The file has been saved...", 3000)
+            self.ui.statusBar.showMessage(f"The file has been saved as {self.path}...", 3000)
 
-        if filepath == "":
+    def open(self):
 
-            return
-        
+        filename, _ = QFileDialog.getOpenFileName(filter = "CSV files (*.csv)")
+
+        if filename:
+            
+            self.path = Path(filename)
+    
+    def quit(self):
+
+        self.destroy()
+
     @Slot()
     def start_scan(self):
         """Starts a scanning process with specified parameters.
         """
         self.ui.startButton.setEnabled(False)
-        
+        self.ui.stopButton.setEnabled(True)
+
         start_value = self.ui.startSpinbox.value()
         stop_value = self.ui.stopSpinbox.value()
         iterations = self.ui.iterationsSpinbox.value()
@@ -136,8 +226,10 @@ class UserInterface(QMainWindow):
     def stop_scan(self):
         """Stops a scanning process.
         """
-        self.experiment.stop_scan()
         self.ui.startButton.setEnabled(True)
+        self.ui.stopButton.setEnabled(False)
+
+        self.experiment.stop_scan()
         self.ui.statusBar.showMessage("Scan has been stopped...", 3000)
 
     def updateXRange(self, value):
@@ -146,8 +238,8 @@ class UserInterface(QMainWindow):
         Args:
             value (int): updated value of the xRangeSlider.
         """
-        self.ui.xRangeLabel.setText(f"x: {value}")
-        self.ui.plotWidget.setXRange(0.0, value, padding = 0)
+        self.ui.xRangeLabel.setText(f"x: {value / 10}")
+        self.ui.plotWidget.setXRange(0, value / 10)
 
     def updateYRange(self, value):
         """Updates the yRangeLabel and YRange to the new value of the yRangeSlider.
@@ -155,8 +247,8 @@ class UserInterface(QMainWindow):
         Args:
             value (int): updated value of the yRangeSlider.
         """
-        self.ui.yRangeLabel.setText(f"y: {value}")
-        self.ui.plotWidget.setYRange(0.0, value, padding = 0)
+        self.ui.yRangeLabel.setText(f"y: {value / 10}")
+        self.ui.plotWidget.setYRange(0, value / 10)
 
     @Slot()
     def plot(self):
