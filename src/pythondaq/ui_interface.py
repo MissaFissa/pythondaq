@@ -408,63 +408,40 @@ class Ui_MainWindow(object):
         self.backgroundColourFrame.setObjectName(u"backgroundColorFrame")
         self.backgroundColourFrame.setMinimumSize(QSize(120, 18))
         self.backgroundColourFrame.setAutoFillBackground(False)
-        self.backgroundColourFrame.setStyleSheet(u"background-color: dimgrey")
+        self.backgroundColourFrame.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 dodgerblue, stop:0.34 black, stop:0.55 dodgerblue, stop:0.98 black, stop:0.99 dodgerblue, stop:1 black)")
         self.backgroundColourFrame.setFrameShape(QFrame.Shape.NoFrame)
         self.backgroundColourFrame.setFrameShadow(QFrame.Shadow.Plain)
         self.backgroundColourFrame.setMidLineWidth(0)
         self.backgroundColourFrame.setLineWidth(0)
 
-        self.verticalLayoutBackgroundColour = QVBoxLayout(self.backgroundColourFrame)
-        self.verticalLayoutBackgroundColour.setObjectName(u"verticalLayoutBackgroundColor")
-
-        # self.backgroundColourLabel = QLabel("Background Color", self.backgroundColourFrame)
-        # self.backgroundColourLabel.setMinimumSize(QSize(120, 18))
-        # self.backgroundColourLabel.setObjectName(u"backgroundColorLabel")
-        # self.backgroundColourLabel.setStyleSheet(u"background-color: transparent")
-        # self.verticalLayoutBackgroundColour.addWidget(self.backgroundColourLabel, 0, Qt.AlignmentFlag.AlignHCenter)
-        
         self.backgroundColourLineEdit = QLineEdit(self.backgroundColourFrame)
         self.backgroundColourLineEdit.setMinimumSize(QSize(100, 18))
-        self.backgroundColourLineEdit.setPlaceholderText("Background")
+        self.backgroundColourLineEdit.setPlaceholderText("Background Color")
         self.backgroundColourLineEdit.setObjectName(u"backgroundColorLineEdit")
-        self.backgroundColourLineEdit.setStyleSheet(u"background-color: black; color: white")
-        self.verticalLayoutBackgroundColour.addWidget(self.backgroundColourLineEdit)
+        self.backgroundColourLineEdit.setStyleSheet(u"background-color: black; color: solid white; opacity: 1")
 
         self.horizontalLayoutColours.addWidget(self.backgroundColourFrame)
 
         self.dataColourFrame = QFrame(self.coloursFrame)
         self.dataColourFrame.setObjectName(u"dataColorFrame")
-        self.dataColourFrame.setMinimumSize(QSize(100, 18))
+        self.dataColourFrame.setMinimumSize(QSize(120, 18))
         self.dataColourFrame.setAutoFillBackground(False)
-        self.dataColourFrame.setStyleSheet(u"background-color: dimgrey")
+        self.dataColourFrame.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 dodgerblue, stop:0.34 black, stop:0.55 dodgerblue, stop:0.98 black, stop:0.99 dodgerblue, stop:1 black)")
         self.dataColourFrame.setFrameShape(QFrame.Shape.NoFrame)
         self.dataColourFrame.setFrameShadow(QFrame.Shadow.Plain)
         self.dataColourFrame.setMidLineWidth(0)
         self.dataColourFrame.setLineWidth(0)
 
-        self.verticalLayoutDataColour = QVBoxLayout(self.dataColourFrame)
-        self.verticalLayoutDataColour.setObjectName(u"verticalLayoutDataColor")
-
-        # self.dataColourLabel = QLabel("Data Color", self.backgroundColourFrame)
-        # self.dataColourLabel.setMinimumSize(QSize(50, 18))
-        # self.dataColourLabel.setObjectName(u"dataColorLabel")
-        # self.dataColourLabel.setStyleSheet(u"background-color: transparent")
-        # self.verticalLayoutDataColour.addWidget(self.dataColourLabel, 0, Qt.AlignmentFlag.AlignHCenter)
-
         self.dataColourLineEdit = QLineEdit(self.dataColourFrame)
         self.dataColourLineEdit.setMinimumSize(QSize(100, 18))
-        self.dataColourLineEdit.setPlaceholderText("Data Color")
+        self.dataColourLineEdit.setPlaceholderText("Datapoints Color")
         self.dataColourLineEdit.setObjectName(u"dataColorLineEdit")
-        self.dataColourLineEdit.setStyleSheet(u"background-color: black; color: white")
-        self.verticalLayoutDataColour.addWidget(self.dataColourLineEdit)
+        self.dataColourLineEdit.setStyleSheet(u"background-color: black; color: solid white; opacity: 1")
 
         self.horizontalLayoutColours.addWidget(self.dataColourFrame)
 
         self.verticalLayout_11.addWidget(self.coloursFrame)
         self.verticalLayout_12.addWidget(self.x_yRangesFrame)
-
-
-
 
         self.verticalLayout_7.addWidget(self.imageFrame)
 

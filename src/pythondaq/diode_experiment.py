@@ -11,6 +11,7 @@ class DiodeExperiment:
         self.device = ArduinoVISADevice(port = port)
         self.is_scanning = threading.Event()
         self.stop_scanning = threading.Event()
+        self.pause = threading.Event()
         self.resistance_resistor = 220
         self.errors_voltages = []
         self.errors_currents = []
@@ -38,6 +39,7 @@ class DiodeExperiment:
             return
 
         self.is_scanning.set()
+        self.pause.clear()
         self.stop_scanning.clear()
         self._scan_thread = threading.Thread(target = self.scan, args = (start, stop, iterations))
         self._scan_thread.start()
@@ -49,6 +51,23 @@ class DiodeExperiment:
             return
 
         self.stop_scanning.set()
+        self.pause.clear()
+
+    def pause_scan(self):
+
+        if self.pause.is_set():
+
+            return
+        
+        self.pause.set()
+
+    def resume_scan(self):
+
+        if not self.pause.is_set():
+
+            return 
+        
+        self.pause.clear()
 
     def scan(self, start, stop, iterations):
         """Starts a measurement.
@@ -70,39 +89,46 @@ class DiodeExperiment:
         self.means_voltages = []
         self.means_currents = []
         self.counter = 0
-        
+    
         try:
                 
             for raw_value in raw_values:
 
-                voltages_resistor = []
-                voltages_LED = []
-                currents_LED = []
-                self.counter += 1
+                if not self.pause.is_set():
 
-                if self.stop_scanning.is_set():
+                    voltages_resistor = []
+                    voltages_LED = []
+                    currents_LED = []
+                    self.counter += 1
 
-                    break
-                
-                for _ in range(iterations):
+                    if self.stop_scanning.is_set():
 
-                    self.device.set_output_value(value = raw_value)
-                    voltage_resistor = self.device.get_input_voltage(channel = 2)
-                    voltage_LED = self.device.get_input_voltage(channel = 1) - voltage_resistor
-                    voltages_resistor.append(voltage_resistor)
-                    voltages_LED.append(voltage_LED)
-                    current_LED = voltage_resistor / self.resistance_resistor
-                    currents_LED.append(current_LED * 1000)
-        
-                self.errors_voltages.append(np.std((np.array(voltages_LED))) / np.sqrt(iterations))
-                self.errors_currents.append(np.std((np.array(currents_LED))) / np.sqrt(iterations))
-                self.means_voltages.append(np.mean((np.array(voltages_LED))))
-                self.means_currents.append(np.mean((np.array(currents_LED))))
+                        break
+                    
+                    for _ in range(iterations):
+
+                        self.device.set_output_value(value = raw_value)
+                        voltage_resistor = self.device.get_input_voltage(channel = 2)
+                        voltage_LED = self.device.get_input_voltage(channel = 1) - voltage_resistor
+                        voltages_resistor.append(voltage_resistor)
+                        voltages_LED.append(voltage_LED)
+                        current_LED = voltage_resistor / self.resistance_resistor
+                        currents_LED.append(current_LED * 1000)
             
-                time.sleep(0.01)
+                    self.errors_voltages.append(np.std((np.array(voltages_LED))) / np.sqrt(iterations))
+                    self.errors_currents.append(np.std((np.array(currents_LED))) / np.sqrt(iterations))
+                    self.means_voltages.append(np.mean((np.array(voltages_LED))))
+                    self.means_currents.append(np.mean((np.array(currents_LED))))
+                
+                    time.sleep(0.01)
+
+                while self.pause.is_set():
+
+                    time.sleep(0.01)
 
         finally:
 
             self.is_scanning.clear()
+            self.pause.clear()
             self.device.set_output_value(value = 0)
             self.device.close()

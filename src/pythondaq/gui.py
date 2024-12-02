@@ -68,7 +68,7 @@ class UserInterface(QMainWindow):
         fileMenu.addAction(quitAction)
         quitAction.triggered.connect(self.closeWindow)
 
-        scanMenu = self.ui.menuBar.addMenu("Run")
+        scanMenu = self.ui.menuBar.addMenu("Scan")
         runAction = QAction("Start", self)
         runAction.setShortcut("F5")
         scanMenu.addAction(runAction)
@@ -78,6 +78,16 @@ class UserInterface(QMainWindow):
         stopAction.setShortcut("Shift+F5")
         scanMenu.addAction(stopAction)
         stopAction.triggered.connect(self.stop_scan)
+
+        pauseAction = QAction("Pause", self)
+        pauseAction.setShortcut("F4")
+        scanMenu.addAction(pauseAction)
+        pauseAction.triggered.connect(self.pause_scan)
+
+        resumeAction = QAction("Resume", self)
+        resumeAction.setShortcut("Shift+F4")
+        scanMenu.addAction(resumeAction)
+        resumeAction.triggered.connect(self.resume_scan)
 
         saveAsButton = QAction("Save As...", self)
         saveAsButtonIconPath = cwd / "icons/saveIcon.png"
@@ -136,7 +146,6 @@ class UserInterface(QMainWindow):
 
         self.ui.startButton.clicked.connect(self.start_scan)
         self.ui.stopButton.clicked.connect(self.stop_scan)
-
         self.plot_timer = QTimer()
         self.plot_timer.timeout.connect(self.updatePlot)
         self.plot_timer.start(100)
@@ -259,6 +268,18 @@ class UserInterface(QMainWindow):
         self.experiment.stop_scan()
         self.ui.statusBar.showMessage("Scan has been stopped...", 3000)
 
+    @Slot()
+    def pause_scan(self):
+
+        self.experiment.pause_scan()
+        self.ui.statusBar.showMessage("Scan has been paused...", 3000)
+
+    @Slot()
+    def resume_scan(self):
+
+        self.experiment.resume_scan()
+        self.ui.statusBar.showMessage("Scan has been resumed...", 3000)
+
     def updateXRange(self, value):
         """Updates the xRangeLabel and XRange to the new value of the xRangeSlider.
 
@@ -284,6 +305,7 @@ class UserInterface(QMainWindow):
     def updateBackgroundColor(self):
 
         self.backgroundColor = self.ui.backgroundColourLineEdit.text()
+        self.ui.plotWidget.setBackground(self.backgroundColor)
 
     @Slot()
     def updatePlot(self):
@@ -291,19 +313,20 @@ class UserInterface(QMainWindow):
         """
         if self.experiment.is_scanning.is_set():
             
-            self.ui.progressBar.setValue(self.experiment.counter)
+            if not self.experiment.pause.is_set():
                     
-            self.ui.plotWidget.clear()
-    
-            self.ui.plotWidget.plot(self.experiment.means_voltages, self.experiment.means_currents, symbol = "o",  symbolPen = self.dataColor, symbolSize = 5, pen = None)
-            self.ui.plotWidget.setBackground(self.backgroundColor)
-
-            error_bars = pg.ErrorBarItem(x = np.array(self.experiment.means_voltages), y = np.array(self.experiment.means_currents), width = 2 * np.array(self.experiment.errors_voltages), height = 2 * np.array(self.experiment.errors_currents))
-            self.ui.plotWidget.addItem(error_bars)
+                self.ui.progressBar.setValue(self.experiment.counter)
+                        
+                self.ui.plotWidget.clear()
         
-            if self.ui.progressBar.value() == self.n:
-                
-                self.ui.statusBar.showMessage("Scan has been completed...", 3000)
+                self.ui.plotWidget.plot(self.experiment.means_voltages, self.experiment.means_currents, symbol = "o",  symbolPen = self.dataColor, symbolSize = 5, pen = None)
+
+                error_bars = pg.ErrorBarItem(x = np.array(self.experiment.means_voltages), y = np.array(self.experiment.means_currents), width = 2 * np.array(self.experiment.errors_voltages), height = 2 * np.array(self.experiment.errors_currents))
+                self.ui.plotWidget.addItem(error_bars)
+            
+                if self.ui.progressBar.value() == self.n:
+                    
+                    self.ui.statusBar.showMessage("Scan has been completed...", 3000)
 
 def main():
 
