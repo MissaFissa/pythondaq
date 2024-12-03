@@ -1,8 +1,5 @@
-# import pyvisa
-try:
-    from nsp2visasim import sim_pyvisa as pyvisa
-except ModuleNotFoundError:
-    import pyvisa
+import pyvisa
+
 def list_resources():
     """Get list of available ports.
 

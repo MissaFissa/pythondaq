@@ -17,7 +17,6 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QDoubleSpinBox,
                                QStyle, QToolBar, QVBoxLayout, QWidget, QSlider)
 
 from pythondaq.diode_experiment import DiodeExperiment, list_resources
-
 from pythondaq.ui_interface import Ui_MainWindow
 
 pg.setConfigOption("foreground", "w")
