@@ -20,11 +20,11 @@ from pythondaq.diode_experiment import DiodeExperiment, list_resources
 
 from pythondaq.ui_interface import Ui_MainWindow
 
-# pg.setConfigOption("background", "k")
 pg.setConfigOption("foreground", "w")
 pg.setConfigOptions(antialias = True)
 
 cwd = Path.cwd()
+
 class UserInterface(QMainWindow):
 
     def __init__(self):
@@ -154,7 +154,6 @@ class UserInterface(QMainWindow):
     def devices(self):
         """Returns list of connected devices.
         """
-        # return list_resources()
         return ["ASRL::SIMLED::INSTR"]
 
     def save(self):
@@ -231,10 +230,6 @@ class UserInterface(QMainWindow):
             error_bars = pg.ErrorBarItem(x = np.array(means_voltages), y = np.array(means_currents), width = 2 * np.array(errors_voltages), height = 2 * np.array(errors_currents))
             self.ui.plotWidget.addItem(error_bars)
         
-    def closeWindow(self):
-
-        sys.exit()
-
     @Slot()
     def start_scan(self):
         """Starts a scanning process with specified parameters.
@@ -292,6 +287,7 @@ class UserInterface(QMainWindow):
     def updateDataColor(self):
         
         self.dataColor = self.ui.dataColourLineEdit.text()
+        self.ui.plotWidget.plot(self.experiment.means_voltages, self.experiment.means_currents, symbol = "o",  symbolPen = self.dataColor, symbolSize = 5, pen = None)
 
     def updateBackgroundColor(self):
 

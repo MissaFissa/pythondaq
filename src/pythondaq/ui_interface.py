@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'interface.ui'
-##
-## Created by: Qt User Interface Compiler version 6.8.0
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -38,10 +28,11 @@ class Ui_MainWindow(object):
         MainWindow.setMaximumSize(QSize(16777214, 16777215))
         MainWindow.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         MainWindow.setAutoFillBackground(False)
-        MainWindow.setStyleSheet(u"background-color: b;\n"
-"border-color: black")
+        MainWindow.setStyleSheet(u"background-color: black; border-color: black")
+        
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Ignored)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -49,13 +40,17 @@ class Ui_MainWindow(object):
         self.centralwidget.setSizePolicy(sizePolicy)
         self.centralwidget.setAutoFillBackground(False)
         self.centralwidget.setStyleSheet(u"")
+
         self.horizontalLayout_2 = QHBoxLayout(self.centralwidget)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+
         self.leftFrame = QFrame(self.centralwidget)
         self.leftFrame.setObjectName(u"leftFrame")
         self.leftFrame.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 dodgerblue, stop:0.34 black, stop:0.55 dodgerblue, stop:0.98 black, stop:0.99 black, stop:1 black)")
+
         self.verticalLayout_7 = QVBoxLayout(self.leftFrame)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+
         self.inputsFrame = QFrame(self.leftFrame)
         self.inputsFrame.setObjectName(u"inputsFrame")
         self.inputsFrame.setAutoFillBackground(False)
@@ -64,8 +59,10 @@ class Ui_MainWindow(object):
         self.inputsFrame.setLineWidth(3)
         self.inputsFrame.setMidLineWidth(2)
         self.inputsFrame.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 dodgerblue, stop:0.34 black, stop:0.55 dodgerblue, stop:0.98 black, stop:0.99 dodgerblue, stop:1 black)")
+
         self.verticalLayout_4 = QVBoxLayout(self.inputsFrame)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+
         self.start_stop_iterationsFrame = QFrame(self.inputsFrame)
         self.start_stop_iterationsFrame.setObjectName(u"start_stop_iterationsFrame")
         self.start_stop_iterationsFrame.setAutoFillBackground(False)
@@ -73,8 +70,10 @@ class Ui_MainWindow(object):
         self.start_stop_iterationsFrame.setFrameShape(QFrame.Shape.Box)
         self.start_stop_iterationsFrame.setFrameShadow(QFrame.Shadow.Raised)
         self.start_stop_iterationsFrame.setMidLineWidth(2)
+
         self.horizontalLayout_4 = QHBoxLayout(self.start_stop_iterationsFrame)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+
         self.startBox = QFrame(self.start_stop_iterationsFrame)
         self.startBox.setObjectName(u"startBox")
         self.startBox.setMinimumSize(QSize(80, 60))
@@ -83,8 +82,10 @@ class Ui_MainWindow(object):
         self.startBox.setFrameShadow(QFrame.Shadow.Sunken)
         self.startBox.setLineWidth(1)
         self.startBox.setMidLineWidth(1)
+
         self.verticalLayout = QVBoxLayout(self.startBox)
         self.verticalLayout.setObjectName(u"verticalLayout")
+
         self.startValueLabel = QLabel(self.startBox)
         self.startValueLabel.setMinimumHeight(18)
         self.startValueLabel.setObjectName(u"startValueLabel")
@@ -101,7 +102,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.startSpinbox)
 
-
         self.horizontalLayout_4.addWidget(self.startBox)
 
         self.stopBox = QFrame(self.start_stop_iterationsFrame)
@@ -112,8 +112,10 @@ class Ui_MainWindow(object):
         self.stopBox.setFrameShadow(QFrame.Shadow.Sunken)
         self.stopBox.setMidLineWidth(1)
         self.stopBox.setLineWidth(1)
+
         self.verticalLayout_5 = QVBoxLayout(self.stopBox)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+
         self.stopValueLabel = QLabel(self.stopBox)
         self.stopValueLabel.setMinimumHeight(18)
         self.stopValueLabel.setObjectName(u"stopValueLabel")
@@ -130,7 +132,6 @@ class Ui_MainWindow(object):
         self.stopSpinbox.setValue(1023)
 
         self.verticalLayout_5.addWidget(self.stopSpinbox)
-
 
         self.horizontalLayout_4.addWidget(self.stopBox)
 
@@ -163,7 +164,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addWidget(self.iterationsSpinbox)
 
-
         self.horizontalLayout_4.addWidget(self.iterations)
 
 
@@ -171,13 +171,14 @@ class Ui_MainWindow(object):
 
         self.deviceFrame = QFrame(self.inputsFrame)
         self.deviceFrame.setObjectName(u"deviceFrame")
-        self.deviceFrame.setStyleSheet(u"background-color:  dimgrey\n"
-"")
+        self.deviceFrame.setStyleSheet(u"background-color: dimgrey")
         self.deviceFrame.setFrameShape(QFrame.Shape.Box)
         self.deviceFrame.setFrameShadow(QFrame.Shadow.Raised)
         self.deviceFrame.setMidLineWidth(2)
+
         self.verticalLayout_2 = QVBoxLayout(self.deviceFrame)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+
         self.deviceLabel = QLabel(self.deviceFrame)
         self.deviceLabel.setMinimumHeight(18)
         self.deviceLabel.setObjectName(u"deviceLabel")
@@ -192,7 +193,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.deviceComboBox)
 
-
         self.verticalLayout_4.addWidget(self.deviceFrame)
 
         self.startStopFrame = QFrame(self.inputsFrame)
@@ -203,8 +203,10 @@ class Ui_MainWindow(object):
         self.startStopFrame.setFrameShadow(QFrame.Shadow.Raised)
         self.startStopFrame.setLineWidth(1)
         self.startStopFrame.setMidLineWidth(2)
+
         self.verticalLayout_8 = QVBoxLayout(self.startStopFrame)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+
         self.startButton = QPushButton(self.startStopFrame)
         self.startButton.setObjectName(u"startButton")
         self.startButton.setStyleSheet(u"color: white; background-color: dimgrey")
@@ -217,9 +219,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addWidget(self.stopButton, 0, Qt.AlignmentFlag.AlignVCenter)
 
-
         self.verticalLayout_4.addWidget(self.startStopFrame)
-
 
         self.verticalLayout_7.addWidget(self.inputsFrame)
 
@@ -232,6 +232,7 @@ class Ui_MainWindow(object):
         self.imageFrame.setFrameShadow(QFrame.Shadow.Raised)
         self.imageFrame.setLineWidth(3)
         self.imageFrame.setMidLineWidth(2)
+
         self.verticalLayout_12 = QVBoxLayout(self.imageFrame)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
   
@@ -242,19 +243,22 @@ class Ui_MainWindow(object):
         self.x_yRangesFrame.setFrameShadow(QFrame.Shadow.Sunken)
         self.x_yRangesFrame.setMidLineWidth(3)
         self.x_yRangesFrame.setLineWidth(1)
+
         self.verticalLayout_11 = QVBoxLayout(self.x_yRangesFrame)
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+
         self.xRangeFrame = QFrame(self.x_yRangesFrame)
         self.xRangeFrame.setObjectName(u"xRangeFrame")
         self.xRangeFrame.setMinimumSize(QSize(301, 49))
         self.xRangeFrame.setStyleSheet(u"background-color: transparent; border-color: white")
-        # self.xRangeFrame.setStyleSheet(u"background-color: transparent; background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 dodgerblue, stop:0.34 black, stop:0.55 dodgerblue, stop:0.98 black, stop:0.99 black, stop:1 black)")
         self.xRangeFrame.setFrameShape(QFrame.Shape.Box)
         self.xRangeFrame.setFrameShadow(QFrame.Shadow.Raised)
         self.xRangeFrame.setMidLineWidth(3)
         self.xRangeFrame.setLineWidth(3)
+
         self.verticalLayout_9 = QVBoxLayout(self.xRangeFrame)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+
         self.xRangeLabel = QLabel("", self.xRangeFrame)
         self.xRangeLabel.setObjectName(u"xRangeLabel")
         self.xRangeLabel.setStyleSheet(u"background-color: transparent")
@@ -265,7 +269,6 @@ class Ui_MainWindow(object):
         self.xRangeSlider.setObjectName(u"xRangeSlider")
         self.xRangeSlider.setAutoFillBackground(False)
         self.xRangeSlider.setTickPosition(QSlider.TickPosition.TicksAbove)
-
         self.xRangeSlider.setStyleSheet(u"\n"
 "QSlider::groove:horizontal {\n"
 "border: 1px solid dodgerblue;\n"
@@ -316,7 +319,6 @@ class Ui_MainWindow(object):
         self.xRangeSlider.setOrientation(Qt.Orientation.Horizontal)
         self.verticalLayout_9.addWidget(self.xRangeSlider)
 
-
         self.verticalLayout_11.addWidget(self.xRangeFrame)
 
         self.yRangeFrame = QFrame(self.x_yRangesFrame)
@@ -324,13 +326,14 @@ class Ui_MainWindow(object):
         self.yRangeFrame.setMinimumSize(QSize(301, 49))
         self.yRangeFrame.setAutoFillBackground(False)
         self.yRangeFrame.setStyleSheet(u"background-color: transparent")
-        # self.yRangeFrame.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 dodgerblue, stop:0.34 black, stop:0.55 dodgerblue, stop:0.98 black, stop:0.99 black, stop:1 black)")
         self.yRangeFrame.setFrameShape(QFrame.Shape.Box)
         self.yRangeFrame.setFrameShadow(QFrame.Shadow.Sunken)
         self.yRangeFrame.setMidLineWidth(3)
         self.yRangeFrame.setLineWidth(3)
+
         self.verticalLayout_10 = QVBoxLayout(self.yRangeFrame)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
+
         self.yRangeLabel = QLabel("", self.yRangeFrame)
         self.yRangeLabel.setObjectName(u"yRangeLabel")
         self.yRangeLabel.setStyleSheet(u"background-color: transparent")
@@ -340,9 +343,7 @@ class Ui_MainWindow(object):
         self.yRangeSlider = QSlider(self.yRangeFrame)
         self.yRangeSlider.setObjectName(u"yRangeSlider")
         self.yRangeSlider.setAutoFillBackground(False)
-
         self.yRangeSlider.setTickPosition(QSlider.TickPosition.TicksAbove)
-
         self.yRangeSlider.setStyleSheet(u"\n"
 "QSlider::groove:horizontal {\n"
 "border: 1px solid dodgerblue;\n"
@@ -395,7 +396,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_10.addWidget(self.yRangeSlider)
 
-
         self.verticalLayout_11.addWidget(self.yRangeFrame)
 
         self.coloursFrame = QFrame(self.x_yRangesFrame)
@@ -403,7 +403,6 @@ class Ui_MainWindow(object):
         self.coloursFrame.setMinimumSize(QSize(301, 30))
         self.coloursFrame.setAutoFillBackground(False)
         self.coloursFrame.setStyleSheet(u"background-color: transparent")
-        # self.coloursFrame.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 dodgerblue, stop:0.34 black, stop:0.55 dodgerblue, stop:0.98 black, stop:0.99 dodgerblue, stop:1 black)")
         self.coloursFrame.setFrameShape(QFrame.Shape.Box)
         self.coloursFrame.setFrameShadow(QFrame.Shadow.Sunken)
         self.coloursFrame.setMidLineWidth(3)
@@ -433,7 +432,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_7.addWidget(self.imageFrame)
 
-
         self.horizontalLayout_2.addWidget(self.leftFrame)
 
         self.plotFrame = QFrame(self.centralwidget)
@@ -447,14 +445,15 @@ class Ui_MainWindow(object):
         self.plotFrame.setFrameShadow(QFrame.Shadow.Sunken)
         self.plotFrame.setLineWidth(0)
         self.plotFrame.setMidLineWidth(0)
+
         self.verticalLayout_6 = QVBoxLayout(self.plotFrame)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+
         self.plotWidget = PlotWidget(self.plotFrame)
         self.plotWidget.setObjectName(u"plotWidget")
         self.plotWidget.setMaximumSize(QSize(16777215, 16777215))
         self.plotWidget.setAutoFillBackground(True)
-        self.plotWidget.setStyleSheet(u"background-color: black;\n"
-"color: dodgerblue")
+        self.plotWidget.setStyleSheet(u"background-color: black; color: dodgerblue")
         self.plotWidget.setFrameShape(QFrame.Shape.NoFrame)
         self.plotWidget.setFrameShadow(QFrame.Shadow.Plain)
         self.plotWidget.setLineWidth(0)
@@ -471,8 +470,10 @@ class Ui_MainWindow(object):
         self.progressBarFrame.setFrameShadow(QFrame.Shadow.Sunken)
         self.progressBarFrame.setLineWidth(1)
         self.progressBarFrame.setMidLineWidth(2)
+
         self.horizontalLayout = QHBoxLayout(self.progressBarFrame)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+
         self.progressBarLabel = QLabel(self.progressBarFrame)
         self.progressBarLabel.setObjectName(u"progressBarLabel")
         self.progressBarLabel.setAutoFillBackground(False)
@@ -498,9 +499,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.progressBar)
 
-
         self.verticalLayout_6.addWidget(self.progressBarFrame)
-
 
         self.horizontalLayout_2.addWidget(self.plotFrame)
 
@@ -518,6 +517,7 @@ class Ui_MainWindow(object):
         self.statusBar = QStatusBar(MainWindow)
         self.statusBar.setObjectName(u"statusBar")
         MainWindow.setStatusBar(self.statusBar)
+
         self.toolBar = QToolBar(MainWindow)
         self.toolBar.setObjectName(u"toolBar")
         self.toolBar.setMouseTracking(False)
