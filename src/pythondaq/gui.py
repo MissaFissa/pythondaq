@@ -59,15 +59,6 @@ class UserInterface(QMainWindow):
         fileMenu.addAction(saveAsAction)
         saveAsAction.triggered.connect(self.saveAs)
         
-        fileMenu.addSeparator()
-
-        quitAction =  QAction("Quit", self)
-        quitAction.setStatusTip("Quit")
-        quitAction.setShortcut("Shift+Ctrl+W")
-        quitAction.setMenuRole(QAction.MenuRole.QuitRole)
-        fileMenu.addAction(quitAction)
-        quitAction.triggered.connect(self.closeWindow)
-
         scanMenu = self.ui.menuBar.addMenu("Scan")
         runAction = QAction("Start", self)
         runAction.setShortcut("F5")
