@@ -33,9 +33,6 @@ class UserInterface(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.ui.menuBar = QMenuBar()
-        self.ui.menuBar.setGeometry(QRect(0, 0, 800, 37))
-
         self.backgroundColor = "black"
         self.dataColor = "white"
         self.path = None
@@ -127,7 +124,6 @@ class UserInterface(QMainWindow):
         self.ui.plotWidget.setLabel("bottom", "Mean voltages LED [V]")
         self.ui.plotWidget.setLabel("left", "Mean currents LED [mA]")
         self.ui.plotWidget.showGrid(x = True, y = True)
-
         self.ui.plotWidget.setXRange(0, self.ui.xRangeSlider.value() / 10)
         self.ui.plotWidget.setYRange(0, self.ui.yRangeSlider.value() / 10)
 
