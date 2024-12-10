@@ -22,13 +22,12 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
 
         MainWindow.setWindowModality(Qt.WindowModality.NonModal)
-        MainWindow.resize(1080, 800)
-
+        MainWindow.resize(1260, 800)
         MainWindow.setMinimumSize(QSize(800, 700))
         MainWindow.setMaximumSize(QSize(16777214, 16777215))
         MainWindow.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         MainWindow.setAutoFillBackground(False)
-        MainWindow.setStyleSheet(u"background-color: black; border-color: black")
+        MainWindow.setStyleSheet(u"border-color: 5px black; background-color: black")
         
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -250,7 +249,7 @@ class Ui_MainWindow(object):
         self.xRangeFrame = QFrame(self.x_yRangesFrame)
         self.xRangeFrame.setObjectName(u"xRangeFrame")
         self.xRangeFrame.setMinimumSize(QSize(301, 49))
-        self.xRangeFrame.setStyleSheet(u"background-color: transparent; border-color: white")
+        self.xRangeFrame.setStyleSheet(u"background-color: transparent; border-color: black")
         self.xRangeFrame.setFrameShape(QFrame.Shape.Box)
         self.xRangeFrame.setFrameShadow(QFrame.Shadow.Raised)
         self.xRangeFrame.setMidLineWidth(3)
@@ -261,7 +260,7 @@ class Ui_MainWindow(object):
 
         self.xRangeLabel = QLabel("", self.xRangeFrame)
         self.xRangeLabel.setObjectName(u"xRangeLabel")
-        self.xRangeLabel.setStyleSheet(u"background-color: transparent")
+        self.xRangeLabel.setStyleSheet(u"background-color: transparent; color: white")
 
         self.verticalLayout_9.addWidget(self.xRangeLabel, 0,Qt.AlignmentFlag.AlignLeft)
 
@@ -271,7 +270,7 @@ class Ui_MainWindow(object):
         self.xRangeSlider.setTickPosition(QSlider.TickPosition.TicksAbove)
         self.xRangeSlider.setStyleSheet(u"\n"
 "QSlider::groove:horizontal {\n"
-"border: 1px solid dodgerblue;\n"
+"border: 1px dodgerblue;\n"
 "background-color: black;\n"
 "height: 10px;\n"
 "border-radius: 4px;\n"
@@ -279,7 +278,7 @@ class Ui_MainWindow(object):
 "\n"
 "QSlider::add-page:horizontal {\n"
 "background: b;\n"
-"border: 1px solid dodgerblue;\n"
+"border: 1px dodgerblue;\n"
 "height: 10px;\n"
 "border-radius: 4px;\n"
 "}\n"
@@ -287,7 +286,7 @@ class Ui_MainWindow(object):
 "QSlider::handle:horizontal {\n"
 "background: qlineargradient(x1:0, y1:0, x2:1, y2:1,\n"
 "    stop:0 dodgerblue, stop:1 dodgerblue);\n"
-"border: 1px solid dodgerblue;\n"
+"border: 1px dodgerblue;\n"
 "width: 13px;\n"
 "margin-top: -2px;\n"
 "margin-bottom: -2px;\n"
@@ -298,7 +297,7 @@ class Ui_MainWindow(object):
 "background: qlineargradient(x1:0, y1:0, x2:1, y2:1,\n"
 "    stop:0 red, stop:1 #ddd);\n"
 ""
-                        "border: 1px solid #444;\n"
+                        "border: 1px #444;\n"
 "border-radius: 4px;\n"
 "}\n"
 "\n"
@@ -314,7 +313,7 @@ class Ui_MainWindow(object):
 "\n"
 "QSlider::handle:horizontal:disabled {\n"
 "background: dodgerblue;\n"
-"border: 1px solid dodgerblue;\n"
+"border: 1px dodgerblue;\n"
 "border-radius: 4px;}")
         self.xRangeSlider.setOrientation(Qt.Orientation.Horizontal)
         self.verticalLayout_9.addWidget(self.xRangeSlider)
@@ -336,7 +335,7 @@ class Ui_MainWindow(object):
 
         self.yRangeLabel = QLabel("", self.yRangeFrame)
         self.yRangeLabel.setObjectName(u"yRangeLabel")
-        self.yRangeLabel.setStyleSheet(u"background-color: transparent")
+        self.yRangeLabel.setStyleSheet(u"background-color: transparent; color: white")
 
         self.verticalLayout_10.addWidget(self.yRangeLabel, 0, Qt.AlignmentFlag.AlignLeft)
 
@@ -346,7 +345,7 @@ class Ui_MainWindow(object):
         self.yRangeSlider.setTickPosition(QSlider.TickPosition.TicksAbove)
         self.yRangeSlider.setStyleSheet(u"\n"
 "QSlider::groove:horizontal {\n"
-"border: 1px solid dodgerblue;\n"
+"border: 1px dodgerblue;\n"
 "background-color: black;\n"
 "height: 10px;\n"
 "border-radius: 4px;\n"
@@ -355,7 +354,7 @@ class Ui_MainWindow(object):
 "\n"
 "QSlider::add-page:horizontal {\n"
 "background: b;\n"
-"border: 1px solid dodgerblue;\n"
+"border: 1px dodgerblue;\n"
 "height: 10px;\n"
 "border-radius: 4px;\n"
 "}\n"
@@ -363,7 +362,7 @@ class Ui_MainWindow(object):
 "QSlider::handle:horizontal {\n"
 "background: qlineargradient(x1:0, y1:0, x2:1, y2:1,\n"
 "    stop:0 dodgerblue, stop:1 dodgerblue);\n"
-"border: 1px solid dodgerblue;\n"
+"border: 1px dodgerblue;\n"
 "width: 13px;\n"
 "margin-top: -2px;\n"
 "margin-bottom: -2px;\n"
@@ -374,7 +373,7 @@ class Ui_MainWindow(object):
 "background: qlineargradient(x1:0, y1:0, x2:1, y2:1,\n"
 "    stop:0 red, stop:1 #ddd);\n"
 ""
-                        "border: 1px solid #444;\n"
+                        "border: 1px #444;\n"
 "border-radius: 4px;\n"
 "}\n"
 "\n"
@@ -390,7 +389,7 @@ class Ui_MainWindow(object):
 "\n"
 "QSlider::handle:horizontal:disabled {\n"
 "background: dodgerblue;\n"
-"border: 1px solid dodgerblue;\n"
+"border: 1px dodgerblue;\n"
 "border-radius: 4px;}")
         self.yRangeSlider.setOrientation(Qt.Orientation.Horizontal)
 
@@ -415,7 +414,7 @@ class Ui_MainWindow(object):
         self.backgroundColourLineEdit.setMinimumSize(QSize(150, 18))
         self.backgroundColourLineEdit.setPlaceholderText("Background Color")
         self.backgroundColourLineEdit.setObjectName(u"backgroundColorLineEdit")
-        self.backgroundColourLineEdit.setStyleSheet(u"background-color: black; color: solid white; opacity: 1")
+        self.backgroundColourLineEdit.setStyleSheet(u"background-color: black; color: white; opacity: 1")
 
         self.horizontalLayoutColours.addWidget(self.backgroundColourLineEdit)
 
@@ -423,9 +422,18 @@ class Ui_MainWindow(object):
         self.dataColourLineEdit.setMinimumSize(QSize(100, 18))
         self.dataColourLineEdit.setPlaceholderText("Datapoints Color")
         self.dataColourLineEdit.setObjectName(u"dataColorLineEdit")
-        self.dataColourLineEdit.setStyleSheet(u"background-color: black; color: solid white; opacity: 1")
+        self.dataColourLineEdit.setStyleSheet(u"background-color: black; color: white; opacity : 1")
 
         self.horizontalLayoutColours.addWidget(self.dataColourLineEdit)
+
+        self.errorBarColorLineEdit = QLineEdit(self.coloursFrame)
+        self.errorBarColorLineEdit.setMinimumSize(QSize(100, 18))
+        self.errorBarColorLineEdit.setPlaceholderText("Errorbar Color")
+        self.errorBarColorLineEdit.setObjectName(u"errorBarColorLineEdit")
+        self.errorBarColorLineEdit.setStyleSheet(u"background-color: black; color: white; opacity : 1")
+
+        self.horizontalLayoutColours.addWidget(self.errorBarColorLineEdit)
+
 
         self.verticalLayout_11.addWidget(self.coloursFrame)
         self.verticalLayout_12.addWidget(self.x_yRangesFrame)
@@ -508,8 +516,7 @@ class Ui_MainWindow(object):
         self.menuBar.setObjectName(u"menuBar")
         self.menuBar.setGeometry(QRect(0, 0, 1020, 21))
         self.menuBar.setAutoFillBackground(False)
-        self.menuBar.setStyleSheet(u"color: dodgerblue;\n"
-"background-color: black")
+        self.menuBar.setStyleSheet(u"color: dodgerblue; background-color: black")
         self.menuBar.setDefaultUp(False)
         self.menuBar.setNativeMenuBar(False)
         MainWindow.setMenuBar(self.menuBar)

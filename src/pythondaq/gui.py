@@ -1,3 +1,5 @@
+"""A gui for a graphing application.
+"""
 import csv, sys
 from pathlib import Path
 import numpy as np
@@ -25,7 +27,11 @@ pg.setConfigOptions(antialias = True)
 cwd = Path.cwd()
 
 class UserInterface(QMainWindow):
+    """The userinterface is the expansion of the QMainWindow class.
 
+    Args:
+        QMainWindow (class): Mainwindow of the application.
+    """
     def __init__(self):
 
         super().__init__()
@@ -35,6 +41,7 @@ class UserInterface(QMainWindow):
 
         self.backgroundColor = "black"
         self.dataColor = "white"
+        self.errorBarColor = "white"
         self.path = None
 
         fileMenu = self.ui.menuBar.addMenu("File")
@@ -129,6 +136,7 @@ class UserInterface(QMainWindow):
 
         self.ui.backgroundColourLineEdit.returnPressed.connect(self.updateBackgroundColor)
         self.ui.dataColourLineEdit.returnPressed.connect(self.updateDataColor)
+        self.ui.errorBarColorLineEdit.returnPressed.connect(self.updateErrorBarColor)
 
         self.ui.startButton.clicked.connect(self.start_scan)
         self.ui.stopButton.clicked.connect(self.stop_scan)
@@ -149,10 +157,12 @@ class UserInterface(QMainWindow):
     def devices(self):
         """Returns list of connected devices.
         """
-        return ["ASRL::SIMLED::INSTR"]
-
+        return list_resources()
+    
+    @Slot()
     def save(self):
-
+        """Saves the opened csv file containing the means of the voltages and currents, along with their corresponding errors.
+        """
         if (self.path):
 
             with open(f'{self.path}', 'w', newline = '') as existing_csvfile:
@@ -170,7 +180,8 @@ class UserInterface(QMainWindow):
         if not (self.path):
 
             return
-        
+
+    @Slot()
     def saveAs(self):
         """Creates a csv file containing the means of the voltages and currents, along with their corresponding errors.
         """
@@ -194,8 +205,10 @@ class UserInterface(QMainWindow):
         
             self.ui.statusBar.showMessage(f"The file has been saved as {self.path}...", 3000)
 
+    @Slot()
     def open(self):
-
+        """Opens a csv file containing the means of the voltages and currents, along with their corresponding errors.
+        """
         filename, _ = QFileDialog.getOpenFileName(filter = "CSV files (*.csv)")
 
         if filename:
@@ -227,7 +240,7 @@ class UserInterface(QMainWindow):
         
     @Slot()
     def start_scan(self):
-        """Starts a scanning process with specified parameters.
+        """Starts a scan with specified parameters.
         """
         self.ui.startButton.setEnabled(False)
         self.ui.stopButton.setEnabled(True)
@@ -241,7 +254,7 @@ class UserInterface(QMainWindow):
 
     @Slot()
     def stop_scan(self):
-        """Stops a scanning process.
+        """Stops the scan.
         """
         self.ui.startButton.setEnabled(True)
         self.ui.stopButton.setEnabled(False)
@@ -251,16 +264,19 @@ class UserInterface(QMainWindow):
 
     @Slot()
     def pause_scan(self):
-
+        """Pauses the scan.
+        """
         self.experiment.pause_scan()
         self.ui.statusBar.showMessage("Scan has been paused...", 3000)
 
     @Slot()
     def resume_scan(self):
-
+        """Resumes the paused scan.
+        """
         self.experiment.resume_scan()
         self.ui.statusBar.showMessage("Scan has been resumed...", 3000)
 
+    @Slot()
     def updateXRange(self, value):
         """Updates the xRangeLabel and XRange to the new value of the xRangeSlider.
 
@@ -270,6 +286,7 @@ class UserInterface(QMainWindow):
         self.ui.xRangeLabel.setText(f"x: {value / 10}")
         self.ui.plotWidget.setXRange(0, value / 10)
 
+    @Slot()
     def updateYRange(self, value):
         """Updates the yRangeLabel and YRange to the new value of the yRangeSlider.
 
@@ -279,16 +296,28 @@ class UserInterface(QMainWindow):
         self.ui.yRangeLabel.setText(f"y: {value / 10}")
         self.ui.plotWidget.setYRange(0, value / 10)
 
+    @Slot()
     def updateDataColor(self):
-        
+        """Updates the color of the datapoints in the plot given an input from user.
+        """
         self.dataColor = self.ui.dataColourLineEdit.text()
         self.ui.plotWidget.plot(self.experiment.means_voltages, self.experiment.means_currents, symbol = "o",  symbolPen = self.dataColor, symbolSize = 5, pen = None)
 
+    @Slot()
     def updateBackgroundColor(self):
-
+        """Updates the background color of the datapoints in the plot given an input from user.
+        """
         self.backgroundColor = self.ui.backgroundColourLineEdit.text()
         self.ui.plotWidget.setBackground(self.backgroundColor)
 
+    @Slot()
+    def updateErrorBarColor(self):
+        """Updates the color of the errorbars in the plot given an input from user.
+        """
+        self.errorBarColor = self.ui.errorBarColorLineEdit.text()
+        error_bars = pg.ErrorBarItem(x = np.array(self.experiment.means_voltages), y = np.array(self.experiment.means_currents), width = 2 * np.array(self.experiment.errors_voltages), height = 2 * np.array(self.experiment.errors_currents), pen = self.errorBarColor)
+        self.ui.plotWidget.addItem(error_bars)
+        
     @Slot()
     def updatePlot(self):
         """Updates the plotWidget when scan is running.
@@ -303,7 +332,7 @@ class UserInterface(QMainWindow):
         
                 self.ui.plotWidget.plot(self.experiment.means_voltages, self.experiment.means_currents, symbol = "o",  symbolPen = self.dataColor, symbolSize = 5, pen = None)
 
-                error_bars = pg.ErrorBarItem(x = np.array(self.experiment.means_voltages), y = np.array(self.experiment.means_currents), width = 2 * np.array(self.experiment.errors_voltages), height = 2 * np.array(self.experiment.errors_currents))
+                error_bars = pg.ErrorBarItem(x = np.array(self.experiment.means_voltages), y = np.array(self.experiment.means_currents), width = 2 * np.array(self.experiment.errors_voltages), height = 2 * np.array(self.experiment.errors_currents), pen = self.errorBarColor)
                 self.ui.plotWidget.addItem(error_bars)
             
                 if self.ui.progressBar.value() == self.n:

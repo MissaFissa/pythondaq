@@ -28,11 +28,12 @@ class DiodeExperiment:
         return self.device.get_identification()
 
     def close(self):
-
+        """Closes communication with selected arduino.
+        """
         self.device.close()
 
     def start_scan(self, start, stop, iterations):
-        """Start a new thread to execute a scan.
+        """Starts a scan.
         """
         if  self.is_scanning.is_set():
 
@@ -45,7 +46,8 @@ class DiodeExperiment:
         self._scan_thread.start()
     
     def stop_scan(self):
-
+        """Stops a scan.
+        """
         if not self.is_scanning.is_set():
 
             return
@@ -54,7 +56,8 @@ class DiodeExperiment:
         self.pause.clear()
 
     def pause_scan(self):
-
+        """Pauses a scan.
+        """
         if self.pause.is_set():
 
             return
@@ -62,7 +65,8 @@ class DiodeExperiment:
         self.pause.set()
 
     def resume_scan(self):
-
+        """Resumes a paused scan.
+        """
         if not self.pause.is_set():
 
             return 
